@@ -7,9 +7,9 @@
 /bazel-out
 
 # Node
-/node_modules
-npm-debug.log
-yarn-error.log
+/node-server/node_modules
+/node-server/npm-debug.log
+/node-server/yarn-error.log
 
 # IDEs and editors
 .idea/
@@ -29,13 +29,14 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+/angular-client/node_modules
+/angular-client/.angular/cache
+/angular-client/.sass-cache/
+/angular-client//connect.lock
+/angular-client//coverage
+/angular-client//libpeerconnection.log
+/angular-client/testem.log
+/angular-client//typings
 
 # System files
 .DS_Store
