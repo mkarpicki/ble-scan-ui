@@ -8,13 +8,13 @@ services:
       - "4200:4200" # specify port forewarding
     network_mode: 'host'  
 
-  express: #name of the second service
-    build: node-server # specify the directory of the Dockerfile
-    ports:
-      - "3000:3000" #specify ports forewarding
-    environment:
-      - env_variable_1=${env_variable_1}
-    network_mode: 'host'  
+  # express: #name of the second service
+  #   build: node-server # specify the directory of the Dockerfile
+  #   ports:
+  #     - "3000:3000" #specify ports forewarding
+  #   environment:
+  #     - env_variable_1=${env_variable_1}
+  #   network_mode: 'host'  
 
   # database: # name of the third service
   #   image: mongo # specify image to build container from
