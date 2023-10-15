@@ -1,9 +1,9 @@
 <h1>{{title}}</h1>
 <app-scanners></app-scanners>
 
-<!-- 
+
 <ul>
-    <li *ngFor="let feed of feeds | async" ></li>
-</ul> -->
+    <li *ngFor="let feed of feeds" >{{feed.created_at}}</li>
+</ul>
 
 <router-outlet></router-outlet>
