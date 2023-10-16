@@ -5,11 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ScannersComponent } from './scanners/scanners.component';
+import { ChannelInfoComponent } from './channel-info/channel-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ScannersComponent
+    ScannersComponent,
+    ChannelInfoComponent
   ],
   imports: [
     BrowserModule,

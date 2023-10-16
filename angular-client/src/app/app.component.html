@@ -1,9 +1,10 @@
 <h1>{{title}}</h1>
-<app-scanners></app-scanners>
+<app-scanners [feeds]="feeds"></app-scanners>
+<app-channel-info [channel]="channel"></app-channel-info>
 
 
-<ul>
+<!-- <ul>
     <li *ngFor="let feed of feeds" >{{feed.created_at}}</li>
-</ul>
+</ul> -->
 
 <router-outlet></router-outlet>

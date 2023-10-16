@@ -4,3 +4,7 @@
         <div><span>name: </span>{{scanner.name}}</div>
     </li>
 </ul>
+
+<ul>
+    <li *ngFor="let feed of feeds" >{{feed.created_at}}</li>
+</ul>
