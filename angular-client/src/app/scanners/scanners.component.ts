@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Scanner } from '../interfaces/scanner.interface';
-import { SCANNERS } from '../scanners';
+import { SCANNERS } from '../data/scanners';
 import { Feed } from '../interfaces/thingspeak/feed.interface';
 
 @Component({

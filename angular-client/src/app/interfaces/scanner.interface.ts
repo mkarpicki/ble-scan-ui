@@ -1,4 +1,5 @@
-export interface Scanner {
-  name: string;
-  address: string;
+import { BLE } from "../interfaces/ble.interface";
+
+export interface Scanner extends BLE {
+
 }

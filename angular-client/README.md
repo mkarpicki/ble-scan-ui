@@ -1,4 +1,4 @@
-# TaskPlanningTool
+# BLE Scanner UI 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
 
@@ -27,3 +27,27 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+notes:
+
+- define list o known BLE ceacons to look (to filter) 
+-- give name
+
+- list of mulitpliers as enum
+
+- list of scaners with last time reported
+-- indicate if last log > 5 mins (for known BLEs)
+
+
+- table sorted by time (nwest on top) for each BLE
+-- each column is scanner
+-- value is rssi 
+-- calc distance (apply multilier rss > meter)
+
+
+-- ble component
+-- list last BLE info ?
+
+then visualise:
+UI to similate distance / position

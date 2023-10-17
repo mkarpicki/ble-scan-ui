@@ -1,4 +1,4 @@
-import { Scanner } from "./interfaces/scanner.interface";
+import { Scanner } from "../interfaces/scanner.interface";
 
 
 export const SCANNERS: Scanner [] = [
