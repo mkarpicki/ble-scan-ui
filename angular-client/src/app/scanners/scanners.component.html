@@ -2,6 +2,7 @@
     <li *ngFor="let scanner of scanners">
         <div><span>address: </span>{{scanner.address}}</div>
         <div><span>name: </span>{{scanner.name}}</div>
+        <div><span>last entry: </span>{{lastEntry(scanner)}}</div>
     </li>
 </ul>
 

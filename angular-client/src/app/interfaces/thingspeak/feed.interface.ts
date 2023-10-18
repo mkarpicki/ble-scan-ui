@@ -1,4 +1,4 @@
-export interface Feed {
+export interface IFeed {
     created_at: string;
     entry_id: number;
     field1: string;

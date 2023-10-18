@@ -1,7 +1,7 @@
-import { Channel } from './channel.interface';
-import { Feed } from './feed.interface';
+import { IChannel } from './channel.interface';
+import { IFeed } from './feed.interface';
 
-export interface FeedResponse {
-    channel: Channel;
-    feeds: Feed[];
+export interface IFeedResponse {
+    channel: IChannel;
+    feeds: IFeed[];
 }
