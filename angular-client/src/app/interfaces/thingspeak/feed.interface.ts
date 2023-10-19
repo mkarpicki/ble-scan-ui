@@ -7,6 +7,16 @@ export interface IFeed {
     field4: string;
     field5: string;
     field6: string;
+
+    entryId(): number;
+    scannerMacAddress(): string;
+    beaconMacAddress(): string ;
+    rssi(): string ; 
+    name(): string;
+    beaconTxPower(): string;
+    timestamp(): string;
+    createdDate(): string;
+    createdTime(): string;
 }
 
 /*
