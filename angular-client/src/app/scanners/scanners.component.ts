@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Scanner } from '../interfaces/scanner.interface';
 import { SCANNERS } from '../data/scanners';
-import { IFeed } from '../interfaces/thingspeak/feed.interface';
-import { scan } from 'rxjs';
+import { Feed } from '../types/thingspeak/feed';
 
 @Component({
   selector: 'app-scanners',
@@ -11,7 +10,7 @@ import { scan } from 'rxjs';
 })
 export class ScannersComponent implements OnChanges{
 
-  @Input() feeds?: IFeed[] = [];
+  @Input() feeds?: Feed[] = [];
 
   ngOnChanges(changes: SimpleChanges) {
     this.feeds = changes['feeds'].currentValue; 
@@ -20,12 +19,12 @@ export class ScannersComponent implements OnChanges{
   scanners: Scanner [] = SCANNERS;
 
   //move to service (helper)
-  getFeedScannerId(feed: IFeed): string {
+  getFeedScannerId(feed: Feed): string {
     return feed['field1'];
   }
 
   //move to service (helper)
-  getFeedCreationDate(feed: IFeed): string {
+  getFeedCreationDate(feed: Feed): string {
     return feed['created_at'];
   }
 

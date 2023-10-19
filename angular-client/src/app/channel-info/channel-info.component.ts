@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Channel } from '../interfaces/thingspeak/channel.interface';
+import { Channel } from '../types/thingspeak/channel';
 
 @Component({
   selector: 'app-channel-info',

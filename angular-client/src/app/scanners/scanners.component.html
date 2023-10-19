@@ -3,9 +3,12 @@
         <div><span>address: </span>{{scanner.address}}</div>
         <div><span>name: </span>{{scanner.name}}</div>
         <div><span>last entry: </span>{{lastEntry(scanner)}}</div>
+        
     </li>
 </ul>
 
 <ul>
-    <li *ngFor="let feed of feeds" >{{feed.created_at}}</li>
+    <li *ngFor="let feed of feeds" >
+        <span>{{feed.createdDate()}}</span>
+    </li>
 </ul>

@@ -3,7 +3,8 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { FeedResponse } from '../interfaces/thingspeak/feed-response.interface';
+import { IFeedResponse } from '../interfaces/thingspeak/feed-response.interface';
+import { FeedResponse } from '../types/thingspeak/feed-response';
 
 
 @Injectable({
@@ -36,7 +37,10 @@ export class FeedService {
   read(): Observable<FeedResponse> {
     return this.http.get<FeedResponse>(this.feedUrl, this.httpOptions).pipe(
       tap(_ => console.log(`read feed`)),
-      catchError(this.handleError<FeedResponse>('getHeroes', {} as FeedResponse))
+      map((res: IFeedResponse) => {
+        return new FeedResponse(res as IFeedResponse)
+      }),
+      catchError(this.handleError<FeedResponse>('getFeed', {} as FeedResponse))
     );
   }
 }

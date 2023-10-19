@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FeedService } from './services/feed.service';
-import { FeedResponse } from './interfaces/thingspeak/feed-response.interface';
-import { Feed } from './interfaces/thingspeak/feed.interface';
-import { Channel } from './interfaces/thingspeak/channel.interface';
+
+import { FeedResponse } from './types/thingspeak/feed-response';
+import { Feed } from './types/thingspeak/feed';
+import { Channel } from './types/thingspeak/channel';
+
 
 @Component({
   selector: 'app-root',
