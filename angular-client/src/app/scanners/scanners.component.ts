@@ -18,24 +18,17 @@ export class ScannersComponent implements OnChanges{
 
   scanners: Scanner [] = SCANNERS;
 
-  //move to service (helper)
-  getFeedScannerId(feed: Feed): string {
-    return feed['field1'];
-  }
-
-  //move to service (helper)
-  getFeedCreationDate(feed: Feed): string {
-    return feed['created_at'];
-  }
-
   lastEntry(scanner: Scanner): string {
 
     let createdAt = '';
 
     if (scanner && this.feeds && this.feeds.length > 0) {
-      this.feeds?.forEach(feed => {
-        //if (this.getFeedScannerId(feed) === this.)
-      });
+      for (let feed of this.feeds) {
+        if (scanner.address === feed.scannerMacAddress()) {
+          createdAt = feed.created_at;
+          break;
+        }
+      };
     }
 
     return createdAt;
