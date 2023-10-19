@@ -17,13 +17,22 @@ export class ScannersComponent implements OnChanges{
   }
 
   scanners: Scanner [] = SCANNERS;
+  
+  private sortFeedsFromLatest(feeds: Feed[]): Feed[] {
+    return feeds.sort((item1: Feed, item2: Feed) => {
+      return (item1.created_at > item2.created_at ? -1 : 1);
+    });
+  }
 
   lastEntry(scanner: Scanner): string {
 
     let createdAt = '';
 
     if (scanner && this.feeds && this.feeds.length > 0) {
-      for (let feed of this.feeds) {
+      
+      let sortedFeeds = this.sortFeedsFromLatest(this.feeds);
+
+      for (let feed of sortedFeeds) {
         if (scanner.address === feed.scannerMacAddress()) {
           createdAt = feed.created_at;
           break;
