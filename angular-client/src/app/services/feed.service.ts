@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { IFeedResponse } from '../interfaces/thingspeak/feed-response.interface';
 import { FeedResponse } from '../types/thingspeak/feed-response';
+import { Feed } from '../types/thingspeak/feed';
 
 
 @Injectable({
@@ -42,5 +43,11 @@ export class FeedService {
       }),
       catchError(this.handleError<FeedResponse>('getFeed', {} as FeedResponse))
     );
+  }
+
+  sortFeedsFromLatest(feeds: Feed[]): Feed[] {
+    return feeds.sort((item1: Feed, item2: Feed) => {
+      return (item1.created_at > item2.created_at ? -1 : 1);
+    });
   }
 }
