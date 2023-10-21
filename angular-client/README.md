@@ -31,8 +31,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 notes:
 
-- define list o known BLE ceacons to look (to filter) 
--- give name
 
 - list of mulitpliers as enum
 

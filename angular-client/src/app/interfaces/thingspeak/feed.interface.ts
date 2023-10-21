@@ -11,12 +11,11 @@ export interface IFeed {
     entryId(): number;
     scannerMacAddress(): string;
     beaconMacAddress(): string ;
-    rssi(): string ; 
+    rssi(): number ; 
     name(): string;
     beaconTxPower(): string;
     timestamp(): string;
-    createdDate(): string;
-    createdTime(): string;
+    createdAt(): string;
 }
 
 /*

@@ -2,13 +2,10 @@
     <li *ngFor="let scanner of scanners">
         <div><span>address: </span>{{scanner.address}}</div>
         <div><span>name: </span>{{scanner.name}}</div>
-        <div><span>last entry: </span>{{lastEntry(scanner)}}</div>
+        <div>
+            <span>last entry: </span>{{lastEntry(scanner) | date}} &nbsp; {{lastEntry(scanner) | time }}
+        </div>
         
     </li>
 </ul>
 
-<ul>
-    <li *ngFor="let feed of feeds" >
-        <span>{{feed.createdDate()}}</span>
-    </li>
-</ul>

@@ -13,6 +13,8 @@ export class ScannersComponent implements OnChanges{
 
   @Input() feeds?: Feed[] = [];
 
+  private maxMinutesOfSilence = 5;
+
   constructor(private feedService: FeedService) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -21,7 +23,6 @@ export class ScannersComponent implements OnChanges{
 
   scanners: Scanner [] = SCANNERS;
   
- 
   lastEntry(scanner: Scanner): string {
 
     let createdAt = '';

@@ -4,7 +4,7 @@ import { Beacon } from "../interfaces/beacon.interface";
 export const BEACONS: Beacon [] = [
     {
         name: "notione-black",
-        address: "a:de:d7:f5:5f:74"
+        address: "fa:de:d7:f5:5f:74"
     },
     // { 
     //     "name": "tkr-grey", 

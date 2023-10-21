@@ -15,9 +15,7 @@ export interface IChannel {
     last_entry_id: number;    
 
     lastEntryId(): number;
-    createdDate(): string;
-    createdTime(): string;
-    updatedDate(): string;
-    updatedTime(): string;
+    createdAt(): string;
+    updatedAt(): string;
 
 }

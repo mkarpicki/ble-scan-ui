@@ -34,8 +34,8 @@ export class Feed implements IFeed {
         return this.field2;
     }
     
-    rssi(): string {
-        return this.field3;
+    rssi(): number {
+        return Number(this.field3 || 0);
     }
     
     name(): string {
@@ -50,12 +50,8 @@ export class Feed implements IFeed {
         return this.field6;
     }
 
-
-    createdDate(): string {
-        return this.created_at.split('T')[0];
+    createdAt(): string {
+        return this.created_at;
     }
 
-    createdTime(): string {
-        return this.created_at.split('T')[1].replace('Z', '');
-    }
 }

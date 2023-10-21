@@ -37,19 +37,11 @@ export class Channel implements IChannel {
         return this.last_entry_id;
     }
 
-    createdDate(): string {
-        return this.created_at.split('T')[0];
+    createdAt(): string {
+        return this.created_at;
     }
 
-    createdTime(): string {
-        return this.created_at.split('T')[1].replace('Z', '');
-    }
-
-    updatedDate(): string {
-        return this.updated_at.split('T')[0];
-    }
-
-    updatedTime(): string {
-        return this.updated_at.split('T')[1].replace('Z', '');
+    updatedAt(): string {
+        return this.updated_at;
     }
 }
