@@ -13,7 +13,7 @@ export class ScannersComponent implements OnChanges{
 
   @Input() feeds?: Feed[] = [];
 
-  private maxMinutesOfSilence = 5;
+  //private maxMinutesOfSilence = 5;
 
   constructor(private feedService: FeedService) {}
 

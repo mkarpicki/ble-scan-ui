@@ -13,7 +13,7 @@ import { Feed } from '../types/thingspeak/feed';
 })
 export class FeedService {
 
-  private numberOfMinutes = 5;
+  private numberOfMinutes = 2;
   private numberofResults = 10;
   private channelId = "502402";
   //private feedUrl= `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?minutes=${this.numberOfMinutes}`;
