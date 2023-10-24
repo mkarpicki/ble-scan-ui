@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Scanner } from '../interfaces/scanner.interface';
+import { IScanner } from '../interfaces/scanner.interface';
 import { SCANNERS } from '../data/scanners';
 import { Feed } from '../types/thingspeak/feed';
 import { FeedService } from '../services/feed.service';
@@ -21,9 +21,9 @@ export class ScannersComponent implements OnChanges{
     this.feeds = changes['feeds'].currentValue; 
   }
 
-  scanners: Scanner [] = SCANNERS;
+  scanners: IScanner [] = SCANNERS;
   
-  lastEntry(scanner: Scanner): string {
+  lastEntry(scanner: IScanner): string {
 
     let createdAt = '';
 

@@ -1,5 +1,5 @@
-import { BLE } from "../interfaces/ble.interface";
+import { IBLE } from "../interfaces/ble.interface";
 
-export interface Beacon extends BLE {
+export interface IBeacon extends IBLE {
     description?: string;
 }

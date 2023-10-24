@@ -1,4 +1,4 @@
-export interface BLE {
+export interface IBLE {
     name: string;
     address: string;
 }

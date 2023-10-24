@@ -1,7 +1,7 @@
-import { Beacon } from "../interfaces/beacon.interface";
+import { IBeacon } from "../interfaces/beacon.interface";
 
 
-export const BEACONS: Beacon [] = [
+export const BEACONS: IBeacon [] = [
     {
         name: "notione-black",
         address: "fa:de:d7:f5:5f:74"

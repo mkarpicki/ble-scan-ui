@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges  } from '@angular/core';
 
-import { Scanner } from '../interfaces/scanner.interface';
-import { Beacon } from "../interfaces/beacon.interface";
+import { IScanner } from '../interfaces/scanner.interface';
+import { IBeacon } from "../interfaces/beacon.interface";
 import { Feed } from '../types/thingspeak/feed';
 import { FeedService } from '../services/feed.service';
 import { BEACONS } from '../data/beacons';
@@ -23,22 +23,22 @@ export class ScanResultsComponent implements OnChanges {
     this.feeds = changes['feeds'].currentValue; 
   }
 
-  scanners: Scanner [] = SCANNERS;
-  beacons: Beacon[] = BEACONS;
+  scanners: IScanner [] = SCANNERS;
+  beacons: IBeacon[] = BEACONS;
 
   private hashOfFeedsPerBeacon: any = {};
 
-  filterFeedsByBeacon(feeds: Feed[], beacon: Beacon): Feed[] {
+  filterFeedsByBeacon(feeds: Feed[], beacon: IBeacon): Feed[] {
     return feeds.filter((feed: Feed) => {
       return feed.beaconMacAddress() === beacon.address
     });
   }
 
-  hasResults(beacon: Beacon): boolean {
+  hasResults(beacon: IBeacon): boolean {
     return this.results(beacon).length > 0;
   }
 
-  results(beacon: Beacon): Feed[] {
+  results(beacon: IBeacon): Feed[] {
 
     if (this.hashOfFeedsPerBeacon[beacon.address] && this.hashOfFeedsPerBeacon[beacon.address].length > 0) {
       return this.hashOfFeedsPerBeacon[beacon.address];

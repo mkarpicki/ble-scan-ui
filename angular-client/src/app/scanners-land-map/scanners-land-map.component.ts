@@ -1,11 +1,21 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { 
+  Component, 
+  ViewChild, 
+  ElementRef, 
+  AfterViewInit, 
+  OnChanges, 
+  Input,
+  SimpleChanges
+} from '@angular/core';
+import { IBeacon } from '../interfaces/beacon.interface';
+import { IScanner } from '../interfaces/scanner.interface';
 
 @Component({
   selector: 'app-scanners-land-map',
   templateUrl: './scanners-land-map.component.html',
   styleUrls: ['./scanners-land-map.component.scss']
 })
-export class ScannersLandMapComponent implements AfterViewInit {
+export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
   private context : any;
   private zoomLevel: number = 10;
@@ -46,7 +56,7 @@ export class ScannersLandMapComponent implements AfterViewInit {
 
   // todo
   // rething how to pass scanners array with name and position ?
-  private scanners = [
+  private _scanners = [
     { 
         id: 'living-room', 
         radius: 5,
@@ -69,7 +79,7 @@ export class ScannersLandMapComponent implements AfterViewInit {
 
   private findScanner (id: string): any {
     let found;
-    this.scanners.forEach(scanner => {
+    this._scanners.forEach(scanner => {
         if(scanner.id === id) {
             found = scanner;
         }
@@ -163,7 +173,7 @@ export class ScannersLandMapComponent implements AfterViewInit {
     this.context.stroke();
     this.context.closePath();
 
-    this.drawObjects(this.context, this.scanners);
+    this.drawObjects(this.context, this._scanners);
 
     //drawSignals(context, window.signals);
     
@@ -176,9 +186,14 @@ export class ScannersLandMapComponent implements AfterViewInit {
 
   @ViewChild("scannersLandMap", { static: false }) scannersLandMap?: ElementRef;
 
+  @Input() beacon?: IBeacon;
+  @Input() scanners?: IScanner[];
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.beacon = changes['beacon'].currentValue; 
+  }
+
   ngAfterViewInit(): void {
-    //const canvas: HTMLCanvasElement = this.scannersLandMap?.nativeElement;
-    //this.context = canvas.getContext("2d");
     this.render();
   }
 

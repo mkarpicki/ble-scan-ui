@@ -1,7 +1,7 @@
-import { Scanner } from "../interfaces/scanner.interface";
+import { IScanner } from "../interfaces/scanner.interface";
 
 
-export const SCANNERS: Scanner [] = [
+export const SCANNERS: IScanner [] = [
     {
       "name": "livin-room", 
       "address": "24:0A:C4:31:46:B0" 

@@ -1,5 +1,5 @@
-import { BLE } from "../interfaces/ble.interface";
+import { IBLE } from "../interfaces/ble.interface";
 
-export interface Scanner extends BLE {
+export interface IScanner extends IBLE {
 
 }
