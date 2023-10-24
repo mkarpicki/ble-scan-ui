@@ -18,7 +18,7 @@
 window.signals = [];
 var signalColor = '#27AE60';
 
-var canvas, context, canvaso, contexto;
+var canvas, context;
 var zoomLevel = 10;
 
 /*
@@ -126,10 +126,10 @@ var drawSignals = function(context, signals) {
 * render 
 */
 var render = function () {
-    canvaso = document.getElementById('imageView');
+    canvas = document.getElementById('imageView');
 
-    context = canvaso.getContext('2d');
-    context.clearRect(0, 0, canvaso.width, canvaso.height);
+    context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
     context.lineWidth = 1;
 
     /* render land */

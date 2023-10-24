@@ -10,6 +10,7 @@ import { ScanResultsComponent } from './scan-results/scan-results.component';
 
 import { DatePipe } from './pipes/date.pipe';
 import { TimePipe } from './pipes/time.pipe';
+import { ScannersLandMapComponent } from './scanners-land-map/scanners-land-map.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TimePipe } from './pipes/time.pipe';
     ScanResultsComponent,
 
     DatePipe,
-    TimePipe
+    TimePipe,
+    ScannersLandMapComponent
   ],
   imports: [
     BrowserModule,
