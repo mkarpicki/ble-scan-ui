@@ -29,23 +29,10 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 
-notes:
-
-
+TODO:
 - list of mulitpliers as enum
-
-- list of scaners with last time reported
--- indicate if last log > 5 mins (for known BLEs)
-
-
-- table sorted by time (nwest on top) for each BLE
--- each column is scanner
--- value is rssi 
--- calc distance (apply multilier rss > meter)
-
-
--- ble component
--- list last BLE info ?
-
-then visualise:
-UI to similate distance / position
+- refactor map
+- pass size of map as input 
+- pass scanners & positions
+- pass and rerender on chage ble rssi/distance calculated
+- calculate discance based on multiplier & rssi
