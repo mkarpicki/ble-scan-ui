@@ -17,6 +17,8 @@ import { IScanner } from '../interfaces/scanner.interface';
 })
 export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
+  private canvas?: HTMLCanvasElement;
+
   private context : any;
   private zoomLevel: number = 10;
   private signalColor = '#27AE60';
@@ -39,6 +41,11 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
       top: 10.6
   }
 
+  private scannerComponentUI = {
+    radius: 5,
+    color: '#00008B'
+  };
+
   private zoom(dimention: number) {
       return this.zoomLevel * dimention;
   }
@@ -50,59 +57,50 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
       };
   };
 
-  /*
-  * objects to add on map
-  */
-
-  // todo
-  // rething how to pass scanners array with name and position ?
-  private _scanners = [
-    { 
-        id: 'living-room', 
-        radius: 5,
-        color: '#00008B',
-        position: {
-            left: ( this.getHousePosion().left + this.house.width - 1 ),
-            top: ( this.getHousePosion().top )        
-        }
-    },
-    { 
-        id: 'garrage',
-        radius: 5,
-        color: '#00008B',
-        position: {
-            left: 3,
-            top: ( this.getHousePosion().top )        
-        }
-    }
-  ];  
-
   private findScanner (id: string): any {
     let found;
-    this._scanners.forEach(scanner => {
-        if(scanner.id === id) {
+    this.scanners?.forEach(scanner => {
+        if(scanner.name === id) {
             found = scanner;
         }
     });
     return found;
   };
 
-  private drawObjects (contex: any, objects: any[]) {
-      objects.forEach(o => {
-          this.context.strokeStyle = o.color;
-          this.context.beginPath();
-          this.context.arc(
-              this.zoom( this.landShift.left + o.position.left ), 
-              this.zoom( this.landShift.top + o.position.top ), 
-              o.radius, 
-              0, 
-              2 * Math.PI
-          );
-          this.context.stroke();
-      });   
+  private drawObjects (objects: any[] | undefined) {
+    objects?.forEach(o => {
+      this.context.strokeStyle = o.color;
+      this.context.beginPath();
+      this.context.arc(
+          this.zoom( this.landShift.left + o.left ), 
+          this.zoom( this.landShift.top + o.top ), 
+          o.radius, 
+          0, 
+          2 * Math.PI
+      );
+      this.context.stroke();
+    });   
   };
 
-  private drawSignals(context: any, signals: any[]) {
+  private drawScanners(scanners: IScanner[] | undefined) {
+
+    if (!scanners) {
+      return;
+    }
+
+    let scannersToDraw: any[] = []; 
+    scanners.forEach(scanner => {
+      scannersToDraw.push({
+        color: this.scannerComponentUI.color,
+        radius: this.scannerComponentUI.radius,
+        left: scanner.left,
+        top: scanner.top
+      })
+    }) ;
+    this.drawObjects(scannersToDraw);
+  }
+
+  private drawSignals(signals: any[]) {
       if (signals && signals.length) {
           
           let signalsToDraw: any[] = [];
@@ -111,20 +109,23 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
               if (scanner) {
                   signalsToDraw.push({
                       color: this.signalColor,
-                      position: scanner.position,
+                      left: scanner.left,
+                      top: scanner.top,
                       radius: signal.radius
                   });
               }
           });
-          this.drawObjects(context, signalsToDraw);
+          this.drawObjects(signalsToDraw);
       }
   };
 
   private render () {
-    const canvas: HTMLCanvasElement = this.scannersLandMap?.nativeElement;
-    this.context = canvas.getContext("2d");
 
-    this.context.clearRect(0, 0, canvas.width, canvas.height);
+    if (!this.context) {
+      return;
+    }
+
+    this.context.clearRect(0, 0, this.canvas?.width, this.canvas?.height);
     this.context.lineWidth = 1;
 
     /* render land */
@@ -173,7 +174,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     this.context.stroke();
     this.context.closePath();
 
-    this.drawObjects(this.context, this._scanners);
+    this.drawScanners(this.scanners);
 
     //drawSignals(context, window.signals);
     
@@ -190,10 +191,14 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   @Input() scanners?: IScanner[];
 
   ngOnChanges(changes: SimpleChanges) {
-    this.beacon = changes['beacon'].currentValue; 
+    this.beacon = changes['beacon']?.currentValue; 
+    this.scanners = changes['scanners']?.currentValue;
+    this.render();
   }
 
   ngAfterViewInit(): void {
+    this.canvas = this.scannersLandMap?.nativeElement;
+    this.context = this.canvas?.getContext("2d");
     this.render();
   }
 
