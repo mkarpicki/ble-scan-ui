@@ -17,6 +17,14 @@ import { IScanner } from '../interfaces/scanner.interface';
 })
 export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
+  @ViewChild("scannersLandMap", { static: false }) scannersLandMap?: ElementRef;
+
+  @Input() beacon?: IBeacon;
+  @Input() scanners?: IScanner[];
+
+  @Input() width: number = 400;
+  @Input() height: number = 300;
+
   private canvas?: HTMLCanvasElement;
 
   private context : any;
@@ -180,15 +188,6 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     
   }
 
-
-  constructor() {
-    //this.scannersLandMap = null;
-  }
-
-  @ViewChild("scannersLandMap", { static: false }) scannersLandMap?: ElementRef;
-
-  @Input() beacon?: IBeacon;
-  @Input() scanners?: IScanner[];
 
   ngOnChanges(changes: SimpleChanges) {
     this.beacon = changes['beacon']?.currentValue; 
