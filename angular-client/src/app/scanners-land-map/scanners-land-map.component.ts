@@ -28,7 +28,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   private canvas?: HTMLCanvasElement;
 
   private context : any;
-  private zoomLevel: number = 10;
+  //private zoomLevel: number = 10;
   private signalColor = '#27AE60';
 
   private landShift = {
@@ -55,7 +55,12 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   };
 
   private zoom(dimention: number) {
-      return this.zoomLevel * dimention;
+      return this.getZoomLevel() * dimention;
+  }
+
+  private getZoomLevel() {
+    //return this.zoomLevel;
+    return (this.width / this.land.width);
   }
 
   private getHousePosion() {

@@ -32,6 +32,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 TODO:
 - list of mulitpliers as enum
 - refactor map
-- pass size of map as input
 - pass and rerender on chage ble rssi/distance calculated
 - calculate discance based on multiplier & rssi
