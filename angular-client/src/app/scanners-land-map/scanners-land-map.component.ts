@@ -59,8 +59,9 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   }
 
   private getZoomLevel() {
-    //return this.zoomLevel;
     return (this.width / this.land.width);
+    //in case I build mor egeneric component and I consider this.land.width < this.land.height
+    //then this method should calculate on height operation
   }
 
   private getHousePosion() {
