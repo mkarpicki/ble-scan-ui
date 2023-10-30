@@ -6,7 +6,7 @@ export const SCANNERS: IScanner [] = [
       address: "24:0A:C4:31:46:B0" ,
       left: 23.5,
       top: 10.6,
-      signalMultiplier: 1
+      signalMultiplier: 1.1
     },
     {
       name: "garrage", 

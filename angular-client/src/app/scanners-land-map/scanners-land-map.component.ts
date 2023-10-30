@@ -60,7 +60,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   };
 
   private zoom(dimention: number) {
-      return this.getZoomLevel() * dimention;
+    return this.getZoomLevel() * dimention;
   }
 
   private getZoomLevel() {
@@ -70,20 +70,18 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   }
 
   private getHousePosion() {
-      return {
-          left: this.landShift.left + this.houseShift.left,
-          top: this.landShift.top + this.houseShift.top
-      };
+    return {
+      left: this.landShift.left + this.houseShift.left,
+      top: this.landShift.top + this.houseShift.top
+    };
   };
 
   private findScannerByAddress (address: string): IScanner | undefined {
-    let found;
-    this.scanners?.forEach(scanner => {
-        if(scanner.address === address) {
-            found = scanner;
-        }
+    
+    let foundScanner = this.scanners?.find(scanner => {
+      return (scanner.address === address);
     });
-    return found;
+    return foundScanner;    
   };
 
   private drawObjects (objects: any[] | undefined) {
@@ -91,11 +89,11 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
       this.context.strokeStyle = o.color;
       this.context.beginPath();
       this.context.arc(
-          this.zoom( this.landShift.left + o.left ), 
-          this.zoom( this.landShift.top + o.top ), 
-          this.zoom(o.radius), 
-          0, 
-          2 * Math.PI
+        this.zoom( this.landShift.left + o.left ), 
+        this.zoom( this.landShift.top + o.top ), 
+        this.zoom(o.radius), 
+        0, 
+        2 * Math.PI
       );
       this.context.stroke();
     });   
@@ -119,10 +117,10 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     this.drawObjects(scannersToDraw);
   }
 
-  private drawDistances(feeds: Feed[]) {
+  private drawDistances(feeds: Feed[] | undefined) {
           
     let signalsToDraw: any[] = [];
-    feeds.forEach(feed => {
+    feeds?.forEach(feed => {
         let scanner = this.findScannerByAddress(feed.scannerMacAddress());
         if (scanner) {
           let distance = this.distanceCalculatorService.calculate(feed.rssi(), scanner);
@@ -195,7 +193,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
     this.drawScanners(this.scanners);
 
-    //drawSignals(context, window.signals);
+    this.drawDistances(this.feeds);
     
   }
 

@@ -35,13 +35,11 @@ export class ScanResultsComponent implements OnChanges {
   private hashOfFeedsPerBeacon: any = {};
 
   private findScannerByAddress (address: string): IScanner | undefined {
-    let found;
-    this.scanners?.forEach(scanner => {
-        if(scanner.address === address) {
-            found = scanner;
-        }
+
+    let filteredScanners = this.scanners.find(scanner => {
+      return (scanner.address === address);
     });
-    return found;
+    return filteredScanners;
   };
 
   filterFeedsByBeacon(feeds: Feed[], beacon: IBeacon): Feed[] {
@@ -69,10 +67,9 @@ export class ScanResultsComponent implements OnChanges {
   }
 
   getScannerNameByAddress(address: string): string | undefined {
-    let filteredScanners = this.scanners.find(scanner => {
-      return (scanner.address === address);
-    });
-    return (filteredScanners?.name);
+    let scanner = this.findScannerByAddress(address);
+
+    return scanner?.name;
   }
 
   /* 

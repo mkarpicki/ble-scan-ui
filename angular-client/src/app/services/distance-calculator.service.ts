@@ -9,6 +9,6 @@ export class DistanceCalculatorService {
   constructor() { }
 
   calculate(rssi: number, scanner: IScanner): number {
-    return rssi * -1;
+    return rssi * (-1) * scanner.signalMultiplier;
   }
 }
