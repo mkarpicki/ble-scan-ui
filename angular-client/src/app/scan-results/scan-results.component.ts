@@ -3,7 +3,10 @@ import { Component, Input, OnChanges, SimpleChanges  } from '@angular/core';
 import { IScanner } from '../interfaces/scanner.interface';
 import { IBeacon } from "../interfaces/beacon.interface";
 import { Feed } from '../types/thingspeak/feed';
+
 import { FeedService } from '../services/feed.service';
+import { DistanceCalculatorService } from '../services/distance-calculator.service';
+
 import { BEACONS } from '../data/beacons';
 import { SCANNERS } from '../data/scanners';
 
@@ -17,7 +20,10 @@ export class ScanResultsComponent implements OnChanges {
 
   @Input() feeds?: Feed[] = [];
 
-  constructor(private feedService: FeedService) {}
+  constructor(
+    private feedService: FeedService,
+    private distanceCalculatorService: DistanceCalculatorService
+    ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.feeds = changes['feeds'].currentValue; 
@@ -27,6 +33,16 @@ export class ScanResultsComponent implements OnChanges {
   beacons: IBeacon[] = BEACONS;
 
   private hashOfFeedsPerBeacon: any = {};
+
+  private findScannerByAddress (address: string): IScanner | undefined {
+    let found;
+    this.scanners?.forEach(scanner => {
+        if(scanner.address === address) {
+            found = scanner;
+        }
+    });
+    return found;
+  };
 
   filterFeedsByBeacon(feeds: Feed[], beacon: IBeacon): Feed[] {
     return feeds.filter((feed: Feed) => {
@@ -64,7 +80,11 @@ export class ScanResultsComponent implements OnChanges {
     create enum of multipliers and map to scanners (based on location and impact of signal)
     calculate distance based on this
   */
-  distance(feed: Feed): number {
-    return feed.rssi();
+  distance(feed: Feed): number | unknown {
+    let scanner = this.findScannerByAddress(feed.scannerMacAddress());
+    if (scanner) {
+      return this.distanceCalculatorService.calculate(feed.rssi(), scanner);
+    }
+    return undefined;
   }
 }

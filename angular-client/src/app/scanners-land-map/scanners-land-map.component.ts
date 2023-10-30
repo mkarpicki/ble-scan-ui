@@ -10,6 +10,9 @@ import {
 import { IBeacon } from '../interfaces/beacon.interface';
 import { IScanner } from '../interfaces/scanner.interface';
 
+import { DistanceCalculatorService } from '../services/distance-calculator.service';
+import { Feed } from '../types/thingspeak/feed';
+
 @Component({
   selector: 'app-scanners-land-map',
   templateUrl: './scanners-land-map.component.html',
@@ -21,14 +24,16 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
   @Input() beacon?: IBeacon;
   @Input() scanners?: IScanner[];
+  @Input() feeds?: Feed[] = [];
 
   @Input() width: number = 400;
   @Input() height: number = 300;
 
+  constructor(private distanceCalculatorService: DistanceCalculatorService) {}
+
   private canvas?: HTMLCanvasElement;
 
   private context : any;
-  //private zoomLevel: number = 10;
   private signalColor = '#27AE60';
 
   private landShift = {
@@ -50,7 +55,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   }
 
   private scannerComponentUI = {
-    radius: 5,
+    radius: 0.5,
     color: '#00008B'
   };
 
@@ -71,10 +76,10 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
       };
   };
 
-  private findScanner (id: string): any {
+  private findScannerByAddress (address: string): IScanner | undefined {
     let found;
     this.scanners?.forEach(scanner => {
-        if(scanner.name === id) {
+        if(scanner.address === address) {
             found = scanner;
         }
     });
@@ -88,7 +93,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
       this.context.arc(
           this.zoom( this.landShift.left + o.left ), 
           this.zoom( this.landShift.top + o.top ), 
-          o.radius, 
+          this.zoom(o.radius), 
           0, 
           2 * Math.PI
       );
@@ -114,23 +119,23 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     this.drawObjects(scannersToDraw);
   }
 
-  private drawSignals(signals: any[]) {
-      if (signals && signals.length) {
+  private drawDistances(feeds: Feed[]) {
           
-          let signalsToDraw: any[] = [];
-          signals.forEach(signal => {
-              let scanner = this.findScanner(signal.id);
-              if (scanner) {
-                  signalsToDraw.push({
-                      color: this.signalColor,
-                      left: scanner.left,
-                      top: scanner.top,
-                      radius: signal.radius
-                  });
-              }
+    let signalsToDraw: any[] = [];
+    feeds.forEach(feed => {
+        let scanner = this.findScannerByAddress(feed.scannerMacAddress());
+        if (scanner) {
+          let distance = this.distanceCalculatorService.calculate(feed.rssi(), scanner);
+          signalsToDraw.push({
+              color: this.signalColor,
+              left: scanner.left,
+              top: scanner.top,
+              radius: distance
           });
-          this.drawObjects(signalsToDraw);
-      }
+        }
+    });
+    this.drawObjects(signalsToDraw);
+      
   };
 
   private render () {
@@ -198,6 +203,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.beacon = changes['beacon']?.currentValue; 
     this.scanners = changes['scanners']?.currentValue;
+    this.feeds = changes['feeds']?.currentValue;
     this.render();
   }
 
