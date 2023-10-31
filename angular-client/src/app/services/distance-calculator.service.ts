@@ -8,7 +8,11 @@ export class DistanceCalculatorService {
 
   constructor() { }
 
+  /* 
+  * @todo
+    implement based on real measurements
+  */
   calculate(rssi: number, scanner: IScanner): number {
-    return rssi * (-1) * scanner.signalMultiplier;
+    return rssi * (-1) * scanner.signalMultiplier / 33;
   }
 }

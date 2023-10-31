@@ -199,8 +199,10 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    this.beacon = changes['beacon']?.currentValue; 
-    this.scanners = changes['scanners']?.currentValue;
+    // todo
+    // I do not need to watch those but curious to check why scanners dissapear on updates
+    //this.beacon = changes['beacon']?.currentValue; 
+    //this.scanners = changes['scanners']?.currentValue;
     this.feeds = changes['feeds']?.currentValue;
     this.render();
   }

@@ -52,6 +52,24 @@ export class ScanResultsComponent implements OnChanges {
     return this.results(beacon).length > 0;
   }
 
+  lastResults(beacon: IBeacon): Feed[] {
+    let results = this.results(beacon);
+    let hashOfResults: any = {};
+    let filteredResults: Feed[] = [];
+
+    //this logic may need to change
+    //for now I assume that I call feed for last 5 mins
+    //and find each newest feed per scanner
+    results.forEach(result => {
+      if (!hashOfResults[result.scannerMacAddress()]) {
+        filteredResults.push(result);
+        hashOfResults[result.scannerMacAddress()] = true;
+      }
+    });
+
+    return filteredResults;
+  }
+
   results(beacon: IBeacon): Feed[] {
 
     if (this.hashOfFeedsPerBeacon[beacon.address] && this.hashOfFeedsPerBeacon[beacon.address].length > 0) {
