@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
+
 import { FeedService } from './services/feed.service';
 
 import { FeedResponse } from './types/thingspeak/feed-response';
@@ -12,20 +14,34 @@ import { Channel } from './types/thingspeak/channel';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-client';
+  
+  title = 'angular-ble-viewer';
   feedResponse?: FeedResponse; 
   feeds?: Feed [];
   channel?: Channel;
 
+  private subscription?: Subscription;
+  private SECONDS = 5;
+
   constructor(private feedService: FeedService) {}
 
   ngOnInit(): void {
-    this.readFeed();
+    
+    const source = interval(this.SECONDS * 1000);
+    this.subscription = source.subscribe(val => {
+      this.readFeed();      
+    });
+    this.readFeed();        
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 
   readFeed(): void {
+    
     this.feedService.read()
-        .subscribe(feedResponse => {
+        .subscribe(feedResponse => {         
           this.feedResponse = feedResponse;
           this.channel = feedResponse.channel;
           this.feeds = feedResponse.feeds;
