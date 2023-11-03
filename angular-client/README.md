@@ -30,7 +30,13 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 TODO:
-- list of mulitpliers as enum
-- refactor map
-- pass and rerender on chage ble rssi/distance calculated
-- calculate discance based on multiplier & rssi
+- calculate discance based on multiplier & rssi (implement calculation)
+
+
+https://iotandelectronics.wordpress.com/2016/10/07/how-to-calculate-distance-from-the-rssi-value-of-the-ble-beacon/
+
+https://vocal.media/01/convert-rssi-value-of-the-ble-bluetooth-low-energy-beacons-to-meters
+
+https://stackoverflow.com/questions/65124232/how-to-get-distance-from-beacons
+
+https://altbeacon.github.io/android-beacon-library/distance-calculations.html#:~:text=This%20uses%20the%20formula%20d,reference%20RSSI%20at%201%20meter.

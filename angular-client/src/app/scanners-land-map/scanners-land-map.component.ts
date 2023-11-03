@@ -7,11 +7,17 @@ import {
   Input,
   SimpleChanges
 } from '@angular/core';
-import { IBeacon } from '../interfaces/beacon.interface';
-import { IScanner } from '../interfaces/scanner.interface';
+
 
 import { DistanceCalculatorService } from '../services/distance-calculator.service';
 import { Feed } from '../types/thingspeak/feed';
+
+import { IPosition } from '../interfaces/position.interface';
+import { IScanner } from '../interfaces/scanner.interface';
+
+import { POSITIONS } from '../data/positions';
+import { SCANNERS } from '../data/scanners';
+
 
 @Component({
   selector: 'app-scanners-land-map',
@@ -22,16 +28,18 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
   @ViewChild("scannersLandMap", { static: false }) scannersLandMap?: ElementRef;
 
-  @Input() beacon?: IBeacon;
-  @Input() scanners?: IScanner[];
   @Input() feeds?: Feed[] = [];
 
   @Input() width: number = 400;
   @Input() height: number = 300;
+  @Input() mapId: string = '';
 
   constructor(private distanceCalculatorService: DistanceCalculatorService) {}
 
   private canvas?: HTMLCanvasElement;
+
+  private scanners: IScanner[] = SCANNERS;
+  private positions: IPosition[] = POSITIONS;
 
   private context : any;
   private signalColor = '#27AE60';
@@ -78,10 +86,9 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
   private findScannerByAddress (address: string): IScanner | undefined {
     
-    let foundScanner = this.scanners?.find(scanner => {
+    return this.scanners?.find(scanner => {
       return (scanner.address === address);
-    });
-    return foundScanner;    
+    });   
   };
 
   private drawObjects (objects: any[] | undefined) {
@@ -99,6 +106,13 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     });   
   };
 
+  private findScannerPositionOnMap(scanner: IScanner): IPosition | undefined {
+
+    return this.positions.find(position => {
+      return (position.scannerName === scanner.name && position.mapId === this.mapId);
+    });
+  }
+
   private drawScanners(scanners: IScanner[] | undefined) {
 
     if (!scanners) {
@@ -107,12 +121,15 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
     let scannersToDraw: any[] = []; 
     scanners.forEach(scanner => {
-      scannersToDraw.push({
-        color: this.scannerComponentUI.color,
-        radius: this.scannerComponentUI.radius,
-        left: scanner.left,
-        top: scanner.top
-      })
+      let position = this.findScannerPositionOnMap(scanner);
+      if (position) {
+        scannersToDraw.push({
+          color: this.scannerComponentUI.color,
+          radius: this.scannerComponentUI.radius,
+          left: position.left,
+          top: position.top
+        });
+      }
     }) ;
     this.drawObjects(scannersToDraw);
   }
@@ -123,13 +140,16 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     feeds?.forEach(feed => {
         let scanner = this.findScannerByAddress(feed.scannerMacAddress());
         if (scanner) {
-          let distance = this.distanceCalculatorService.calculate(feed.rssi(), scanner);
-          signalsToDraw.push({
-              color: this.signalColor,
-              left: scanner.left,
-              top: scanner.top,
-              radius: distance
-          });
+          let position = this.findScannerPositionOnMap(scanner);
+          if (position) {
+            let distance = this.distanceCalculatorService.calculate(feed.rssi(), scanner);
+            signalsToDraw.push({
+                color: this.signalColor,
+                left: position.left,
+                top: position.top,
+                radius: distance
+            });
+          }
         }
     });
     this.drawObjects(signalsToDraw);

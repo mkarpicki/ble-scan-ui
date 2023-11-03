@@ -13,6 +13,6 @@ export class DistanceCalculatorService {
     implement based on real measurements
   */
   calculate(rssi: number, scanner: IScanner): number {
-    return (rssi * (-1) * scanner.signalMultiplier / 33);
+    return (rssi * (-1)) / 33;
   }
 }

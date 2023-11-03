@@ -1,6 +1,5 @@
 import { IBLE } from "../interfaces/ble.interface";
-import { IPosition } from "./position.interface";
 
-export interface IScanner extends IBLE, IPosition {
-    signalMultiplier: number; 
+export interface IScanner extends IBLE {
+    
 }
