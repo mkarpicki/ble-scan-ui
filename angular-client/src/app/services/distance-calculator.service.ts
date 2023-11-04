@@ -13,6 +13,9 @@ export class DistanceCalculatorService {
     implement based on real measurements
   */
   calculate(rssi: number, scanner: IScanner): number {
-    return (rssi * (-1)) / 33;
+    let n = 2;
+    let measured_power = -69;
+    return Math.pow(10, ((measured_power -rssi) / (10 * n)));
+    //return (rssi * (-1)) / 33;
   }
 }
