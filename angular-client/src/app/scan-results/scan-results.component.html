@@ -24,7 +24,7 @@
                 </tr>
             </tbody>
         </table>
-        <span *ngIf="!hasResults(beacon)">No scan results</span>    
+        <div *ngIf="!hasResults(beacon)">No scan results</div>    
         <app-scanners-land-map 
             [width]="400" 
             [height]="300"
