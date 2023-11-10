@@ -29,7 +29,7 @@ export class ScannersComponent implements OnChanges{
 
     if (scanner && this.feeds && this.feeds.length > 0) {
       
-      let sortedFeeds = this.feedService.sortFeedsFromLatest(this.feeds);
+      const sortedFeeds = this.feedService.sortFeedsFromLatest(this.feeds);
 
       for (let feed of sortedFeeds) {
         if (scanner.address === feed.scannerMacAddress()) {

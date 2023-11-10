@@ -32,20 +32,19 @@ export class ScanResultsComponent implements OnChanges {
   scanners: IScanner [] = SCANNERS;
   beacons: IBeacon[] = BEACONS;
 
-  private hashOfFeedsPerBeacon: any = {};
-
   private findScannerByAddress (address: string): IScanner | undefined {
 
-    let filteredScanners = this.scanners.find(scanner => {
+    const filteredScanners = this.scanners.find(scanner => {
       return (scanner.address === address);
     });
     return filteredScanners;
   };
 
   filterFeedsByBeacon(feeds: Feed[], beacon: IBeacon): Feed[] {
-    return feeds.filter((feed: Feed) => {
+    const flteredFeeds =  feeds.filter((feed: Feed) => {
       return feed.beaconMacAddress() === beacon.address
     });
+    return flteredFeeds;
   }
 
   hasResults(beacon: IBeacon): boolean {
@@ -53,7 +52,7 @@ export class ScanResultsComponent implements OnChanges {
   }
 
   lastResults(beacon: IBeacon): Feed[] {
-    let results = this.results(beacon);
+    const results = this.results(beacon);
     let hashOfResults: any = {};
     let filteredResults: Feed[] = [];
 
@@ -72,20 +71,14 @@ export class ScanResultsComponent implements OnChanges {
 
   results(beacon: IBeacon): Feed[] {
 
-    if (this.hashOfFeedsPerBeacon[beacon.address] && this.hashOfFeedsPerBeacon[beacon.address].length > 0) {
-      return this.hashOfFeedsPerBeacon[beacon.address];
-    }
-
-    let feedsForBeacon: Feed[] = this.filterFeedsByBeacon(this.feeds || [], beacon);
-    let sortedFeeds = this.feedService.sortFeedsFromLatest(feedsForBeacon);
-
-    this.hashOfFeedsPerBeacon[beacon.address] = sortedFeeds;
+    const feedsForBeacon: Feed[] = this.filterFeedsByBeacon(this.feeds || [], beacon);
+    const sortedFeeds = this.feedService.sortFeedsFromLatest(feedsForBeacon);
 
     return sortedFeeds;
   }
 
   getScannerNameByAddress(address: string): string | undefined {
-    let scanner = this.findScannerByAddress(address);
+    const scanner = this.findScannerByAddress(address);
 
     return scanner?.name;
   }
@@ -96,7 +89,7 @@ export class ScanResultsComponent implements OnChanges {
     calculate distance based on this
   */
   distance(feed: Feed): number | unknown {
-    let scanner = this.findScannerByAddress(feed.scannerMacAddress());
+    const scanner = this.findScannerByAddress(feed.scannerMacAddress());
     if (scanner) {
       return this.distanceCalculatorService.calculate(feed.rssi(), scanner);
     }

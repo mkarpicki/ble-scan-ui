@@ -13,11 +13,11 @@ import { Feed } from '../types/thingspeak/feed';
 })
 export class FeedService {
 
-  private numberOfMinutes = 2;
+  private numberOfMinutes = 3;
   private numberofResults = 10;
   private channelId = "502402";
-  //private feedUrl= `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?minutes=${this.numberOfMinutes}`;
-  private feedUrl= `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?results=${this.numberofResults}`;
+  private feedUrl= `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?minutes=${this.numberOfMinutes}`;
+  //private feedUrl= `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?results=${this.numberofResults}`;
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
