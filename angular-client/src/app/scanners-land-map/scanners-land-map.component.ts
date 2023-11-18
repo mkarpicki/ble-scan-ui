@@ -67,6 +67,15 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     color: '#00008B'
   };
 
+  private flowerBeds = [
+    {
+      topShift: 4,
+      leftShift: 11,
+      sizeY: 4.2 / 2, 
+      sizeX: 7.6 / 2
+    }
+  ];
+
   private zoom(dimention: number) {
     return this.getZoomLevel() * dimention;
   }
@@ -211,12 +220,30 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     this.context.stroke();
     this.context.closePath();
 
-    this.drawScanners(this.scanners);
+    this.drawFlowerBeds();
 
+    this.drawScanners(this.scanners);
     this.drawDistances(this.feeds);
     
   }
 
+  drawFlowerBeds() {
+    this.flowerBeds.forEach(flowerBed => {
+      this.context.strokeStyle = '#000000';
+      this.context.beginPath();
+
+      this.context.ellipse(
+        this.zoom( this.landShift.left + flowerBed.leftShift ), 
+        this.zoom( this.landShift.top + flowerBed.topShift),  
+        this.zoom( flowerBed.sizeX ), 
+        this.zoom( flowerBed.sizeY) , 
+        0, 
+        0, 
+        2 * Math.PI
+      );
+      this.context.stroke();
+    })
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     // todo
