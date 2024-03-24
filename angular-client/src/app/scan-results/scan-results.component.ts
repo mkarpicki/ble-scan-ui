@@ -1,13 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges  } from '@angular/core';
 
 import { IScanner } from '../interfaces/scanner.interface';
-import { IBeacon } from "../interfaces/beacon.interface";
 import { Feed } from '../types/thingspeak/feed';
 
-import { FeedService } from '../services/feed.service';
 import { DistanceCalculatorService } from '../services/distance-calculator.service';
 
-import { BEACONS } from '../data/beacons';
 import { SCANNERS } from '../data/scanners';
 
 
@@ -21,16 +18,14 @@ export class ScanResultsComponent implements OnChanges {
   @Input() feeds?: Feed[] = [];
 
   constructor(
-    private feedService: FeedService,
     private distanceCalculatorService: DistanceCalculatorService
-    ) {}
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.feeds = changes['feeds'].currentValue; 
   }
 
   scanners: IScanner [] = SCANNERS;
-  beacons: IBeacon[] = BEACONS;
 
   private findScannerByAddress (address: string): IScanner | undefined {
 
@@ -40,19 +35,36 @@ export class ScanResultsComponent implements OnChanges {
     return filteredScanners;
   };
 
-  filterFeedsByBeacon(feeds: Feed[], beacon: IBeacon): Feed[] {
-    const flteredFeeds =  feeds.filter((feed: Feed) => {
-      return feed.beaconMacAddress() === beacon.address
-    });
-    return flteredFeeds;
+  /**
+   * 
+   * tood
+   * 1. click on each feed to define last feed to see
+   * 2. change list to show selected lasResults
+   * 3. pass to map lasTrsults
+   * 4. change lastresuls method to look for selected to scan 
+   * 5. onload: select last 
+   */
+
+  // lastFeedPerBeacon: any = {};
+
+  // selectLastFeed(beacon: IBeacon): void {
+  //   this.lastFeedPerBeacon[beacon.address] = this.results(beacon)[0];
+  // };
+
+  // selectFeed(beacon: IBeacon, feed: Feed): void {
+  //   this.lastFeedPerBeacon[beacon.address] = feed;
+  // }
+
+  results(): Feed[] {
+    return this.feeds || [];
   }
 
-  hasResults(beacon: IBeacon): boolean {
-    return this.results(beacon).length > 0;
+  hasResults(): boolean {
+    return this.results().length > 0;
   }
 
-  lastResults(beacon: IBeacon): Feed[] {
-    const results = this.results(beacon);
+  lastResults(): Feed[] {
+    const results = this.results();
     let hashOfResults: any = {};
     let filteredResults: Feed[] = [];
 
@@ -67,14 +79,6 @@ export class ScanResultsComponent implements OnChanges {
     });
 
     return filteredResults;
-  }
-
-  results(beacon: IBeacon): Feed[] {
-
-    const feedsForBeacon: Feed[] = this.filterFeedsByBeacon(this.feeds || [], beacon);
-    const sortedFeeds = this.feedService.sortFeedsFromLatest(feedsForBeacon);
-
-    return sortedFeeds;
   }
 
   getScannerNameByAddress(address: string): string | undefined {

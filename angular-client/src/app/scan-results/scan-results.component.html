@@ -1,35 +1,31 @@
-<ul>
-    <li *ngFor="let beacon of beacons">
-        <div>
-            <span>{{beacon.name}}</span>&nbsp;
-            <span>({{beacon.address}})</span>
-        </div>    
-        <table *ngIf="hasResults(beacon)">
-            <thead>
-                <tr>
-                    <th>scanner name</th>
-                    <th>date</th>
-                    <th>time</th>
-                    <th>rssi</th>
-                    <th>distance</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let result of results(beacon)">
-                    <td>{{ getScannerNameByAddress(result.scannerMacAddress()) }}</td>
-                    <td>{{ result.createdAt() | date }}</td>
-                    <td>{{ result.createdAt() | time }}</td>
-                    <td>{{ result.rssi() }}</td>
-                    <td>{{ distance(result) }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div *ngIf="!hasResults(beacon)">No scan results</div>    
-        <app-scanners-land-map 
-            [width]="400" 
-            [height]="300"
-            [mapId]="'land-map'"
-            [feeds]="lastResults(beacon)">
-        </app-scanners-land-map>        
-    </li>
-</ul>
+<div *ngIf="!hasResults()">No scan results</div>    
+<div *ngIf="hasResults()">
+    <!-- <a href="#" (click)="selectLastFeed(beacon)" >show last scans</a> -->
+    <table>
+        <thead>
+            <tr>
+                <th>scanner name</th>
+                <th>date</th>
+                <th>time</th>
+                <th>rssi</th>
+                <th>distance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let result of feeds">
+                <td>{{ getScannerNameByAddress(result.scannerMacAddress()) }}</td>
+                <td>{{ result.createdAt() | date }}</td>
+                <td>{{ result.createdAt() | time }}</td>
+                <td>{{ result.rssi() }}</td>
+                <td>{{ distance(result) }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>    
+
+<app-scanners-land-map 
+    [width]="400" 
+    [height]="300"
+    [mapId]="'land-map'"
+    [feeds]="lastResults()">
+</app-scanners-land-map>        

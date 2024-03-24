@@ -1,0 +1,10 @@
+<ul>
+    <li *ngFor="let beacon of beacons">
+        <div>
+            <span>{{beacon.name}}</span>&nbsp;
+            <span>({{beacon.address}})</span>           
+        </div>
+        <app-scan-results [feeds]="results(beacon)"></app-scan-results>
+              
+    </li>
+</ul>

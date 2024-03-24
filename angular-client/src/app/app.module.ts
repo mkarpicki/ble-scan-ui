@@ -11,6 +11,7 @@ import { ScanResultsComponent } from './scan-results/scan-results.component';
 import { DatePipe } from './pipes/date.pipe';
 import { TimePipe } from './pipes/time.pipe';
 import { ScannersLandMapComponent } from './scanners-land-map/scanners-land-map.component';
+import { BeaconsResultsComponent } from './beacons-results/beacons-results.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ScannersLandMapComponent } from './scanners-land-map/scanners-land-map.
 
     DatePipe,
     TimePipe,
-    ScannersLandMapComponent
+    ScannersLandMapComponent,
+    BeaconsResultsComponent
   ],
   imports: [
     BrowserModule,
