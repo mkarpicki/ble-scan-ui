@@ -1,6 +1,6 @@
 <div *ngIf="!hasResults()">No scan results</div>    
 <div *ngIf="hasResults()">
-    <!-- <a href="#" (click)="selectLastFeed(beacon)" >show last scans</a> -->
+    <a href="#" (click)="selectLastFeed()" >select newest feed </a>
     <table>
         <thead>
             <tr>
@@ -12,12 +12,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let result of feeds">
-                <td>{{ getScannerNameByAddress(result.scannerMacAddress()) }}</td>
-                <td>{{ result.createdAt() | date }}</td>
-                <td>{{ result.createdAt() | time }}</td>
-                <td>{{ result.rssi() }}</td>
-                <td>{{ distance(result) }}</td>
+            <tr *ngFor="let feed of feeds">
+                <td><a href="#" (click)="selectFeed(feed)">{{ getScannerNameByAddress(feed.scannerMacAddress()) }}</a></td>
+                <td><a href="#" (click)="selectFeed(feed)">{{ feed.createdAt() | date }}</a></td>
+                <td><a href="#" (click)="selectFeed(feed)">{{ feed.createdAt() | time }}</a></td>
+                <td><a href="#" (click)="selectFeed(feed)">{{ feed.rssi() }}</a></td>
+                <td><a href="#" (click)="selectFeed(feed)">{{ distance(feed) }}</a></td>
             </tr>
         </tbody>
     </table>
@@ -27,5 +27,5 @@
     [width]="400" 
     [height]="300"
     [mapId]="'land-map'"
-    [feeds]="lastResults()">
+    [feeds]="drawFeedsAroundSelected()">
 </app-scanners-land-map>        

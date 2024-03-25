@@ -16,6 +16,12 @@ import { SCANNERS } from '../data/scanners';
 export class ScanResultsComponent implements OnChanges {
 
   @Input() feeds?: Feed[] = [];
+  
+  scanners: IScanner [] = SCANNERS;
+
+  private minutesToSearch = 2;
+
+  selectedFeed?: Feed = undefined;
 
   constructor(
     private distanceCalculatorService: DistanceCalculatorService
@@ -23,9 +29,8 @@ export class ScanResultsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.feeds = changes['feeds'].currentValue; 
+    this.selectLastFeed();
   }
-
-  scanners: IScanner [] = SCANNERS;
 
   private findScannerByAddress (address: string): IScanner | undefined {
 
@@ -35,32 +40,68 @@ export class ScanResultsComponent implements OnChanges {
     return filteredScanners;
   };
 
-  /**
-   * 
-   * tood
-   * 1. click on each feed to define last feed to see
-   * 2. change list to show selected lasResults
-   * 3. pass to map lasTrsults
-   * 4. change lastresuls method to look for selected to scan 
-   * 5. onload: select last 
-   */
+  private newestResult(): Feed {
+    return this.results()[0];
+  }
 
-  // lastFeedPerBeacon: any = {};
+  private isScanTimeClose(timestamp1: number, timestamp2: number): boolean {
+    let diff = 1000 * 60 * 2;
+    if (timestamp1 >= timestamp2) {
+      return (timestamp1 - timestamp2) <= diff;
+    } else {
+      return (timestamp2 - timestamp1) <= diff;
+    }
+  }
 
-  // selectLastFeed(beacon: IBeacon): void {
-  //   this.lastFeedPerBeacon[beacon.address] = this.results(beacon)[0];
-  // };
+  selectLastFeed(): void {
+    if (this.hasResults()) {
+      this.selectedFeed = this.newestResult();
+    } else {
+      this.selectedFeed = undefined;
+    }
+  }
 
-  // selectFeed(beacon: IBeacon, feed: Feed): void {
-  //   this.lastFeedPerBeacon[beacon.address] = feed;
-  // }
+  selectFeed(feed: Feed): void {
+    debugger;
+    this.selectedFeed = feed;
+  }
 
   results(): Feed[] {
+    console.log('this.feeds');
+    console.log(this.feeds);
     return this.feeds || [];
   }
 
   hasResults(): boolean {
     return this.results().length > 0;
+  }
+
+  drawFeedsAroundSelected(): Feed[] {
+    const results = this.results();
+    let hashOfResults: any = {};
+    let filteredResults: Feed[] = [];
+
+    // fixme
+    const feedToCompare = this.selectedFeed !== undefined ? this.selectedFeed : this.newestResult();
+
+    results.forEach(result => {
+
+      let isResultCloseToSearchItem = this.isScanTimeClose(
+        Number(result.createdAt()),
+        Number(feedToCompare.createdAt())
+      );
+
+      // fixme
+      //if (isResultCloseToSearchItem) {
+        if (!hashOfResults[result.scannerMacAddress()]) {
+          filteredResults.push(result);
+          hashOfResults[result.scannerMacAddress()] = true;
+        }
+      //}
+
+    });
+
+    return filteredResults;
   }
 
   lastResults(): Feed[] {
