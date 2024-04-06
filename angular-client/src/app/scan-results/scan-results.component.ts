@@ -1,12 +1,8 @@
 import { Component, Input, OnChanges, SimpleChanges  } from '@angular/core';
-
 import { IScanner } from '../interfaces/scanner.interface';
 import { Feed } from '../types/thingspeak/feed';
-
 import { DistanceCalculatorService } from '../services/distance-calculator.service';
-
 import { SCANNERS } from '../data/scanners';
-
 
 @Component({
   selector: 'app-scan-results',
@@ -19,9 +15,10 @@ export class ScanResultsComponent implements OnChanges {
   
   scanners: IScanner [] = SCANNERS;
 
-  private minutesToSearch = 2;
+  private minutesToSearch = 1;
 
-  selectedFeed?: Feed = undefined;
+  private keepSelectingLast = true;
+  private selectedFeed?: Feed = undefined;
 
   constructor(
     private distanceCalculatorService: DistanceCalculatorService
@@ -29,7 +26,9 @@ export class ScanResultsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.feeds = changes['feeds'].currentValue; 
-    this.selectLastFeed();
+    if (this.keepSelectingLast) {
+      this.selectLastFeed();  
+    }
   }
 
   private findScannerByAddress (address: string): IScanner | undefined {
@@ -45,7 +44,8 @@ export class ScanResultsComponent implements OnChanges {
   }
 
   private isScanTimeClose(timestamp1: number, timestamp2: number): boolean {
-    let diff = 1000 * 60 * 2;
+    let diff = 1000 * 60 * this.minutesToSearch;
+    
     if (timestamp1 >= timestamp2) {
       return (timestamp1 - timestamp2) <= diff;
     } else {
@@ -55,20 +55,19 @@ export class ScanResultsComponent implements OnChanges {
 
   selectLastFeed(): void {
     if (this.hasResults()) {
-      this.selectedFeed = this.newestResult();
+      this.selectFeed(this.newestResult());
     } else {
-      this.selectedFeed = undefined;
+      this.selectFeed(undefined);
     }
+    this.keepSelectingLast = true;
   }
 
-  selectFeed(feed: Feed): void {
-    debugger;
+  selectFeed(feed: Feed | undefined): void {
     this.selectedFeed = feed;
+    this.keepSelectingLast = false;
   }
 
   results(): Feed[] {
-    console.log('this.feeds');
-    console.log(this.feeds);
     return this.feeds || [];
   }
 
@@ -76,47 +75,27 @@ export class ScanResultsComponent implements OnChanges {
     return this.results().length > 0;
   }
 
-  drawFeedsAroundSelected(): Feed[] {
+  selectFeedsAroundSelected(): Feed[] {
     const results = this.results();
     let hashOfResults: any = {};
     let filteredResults: Feed[] = [];
 
-    // fixme
     const feedToCompare = this.selectedFeed !== undefined ? this.selectedFeed : this.newestResult();
 
     results.forEach(result => {
 
       let isResultCloseToSearchItem = this.isScanTimeClose(
-        Number(result.createdAt()),
-        Number(feedToCompare.createdAt())
+        new Date(result.createdAt()).getTime(),
+        new Date(feedToCompare.createdAt()).getTime()
       );
 
-      // fixme
-      //if (isResultCloseToSearchItem) {
+      if (isResultCloseToSearchItem) {
         if (!hashOfResults[result.scannerMacAddress()]) {
           filteredResults.push(result);
           hashOfResults[result.scannerMacAddress()] = true;
         }
-      //}
-
-    });
-
-    return filteredResults;
-  }
-
-  lastResults(): Feed[] {
-    const results = this.results();
-    let hashOfResults: any = {};
-    let filteredResults: Feed[] = [];
-
-    //this logic may need to change
-    //for now I assume that I call feed for last 5 mins
-    //and find each newest feed per scanner
-    results.forEach(result => {
-      if (!hashOfResults[result.scannerMacAddress()]) {
-        filteredResults.push(result);
-        hashOfResults[result.scannerMacAddress()] = true;
       }
+
     });
 
     return filteredResults;

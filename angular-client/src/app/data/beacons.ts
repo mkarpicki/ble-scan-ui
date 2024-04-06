@@ -2,17 +2,17 @@ import { IBeacon } from "../interfaces/beacon.interface";
 
 
 export const BEACONS: IBeacon [] = [
-    {
-        name: "notione-black",
-        address: "fa:de:d7:f5:5f:74"
-    }
+    // {
+    //     name: "notione-black",
+    //     address: "fa:de:d7:f5:5f:74"
+    // }
     // { 
     //     "name": "tkr-grey", 
     //     "address": "DE:8C:EB:D2:EE:F3" 
     // },
-    // ,{
-    //     description: "notione-yellow",
-    //     name: "mouver robot", 
-    //     address: "d4:6c:d7:df:e9:1a" 
-    // }
+    {
+        description: "notione-yellow",
+        name: "mouver robot", 
+        address: "d4:6c:d7:df:e9:1a" 
+    }
 ];

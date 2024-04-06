@@ -15,10 +15,13 @@ export class FeedService {
 
   private channelId = "502402"; //todo: move to config
   private numberOfMinutes = 3;
-  //private feedUrl= `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?minutes=${this.numberOfMinutes}`;
+  private feedUrlLastMinutes = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?minutes=${this.numberOfMinutes}`;
   
-  private numberofResults = 10;
-  private feedUrl= `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?results=${this.numberofResults}`;
+  private numberOfResults = 10;
+  private feedUrlLastResults = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?results=${this.numberOfResults}`;
+
+  private feedUrl = this.feedUrlLastMinutes;
+  //private feedUrl = this.feedUrlLastResults;
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -30,7 +33,6 @@ export class FeedService {
     return (error: any): Observable<T> => {
   
       console.error(error); // log to console instead
-  
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
@@ -38,7 +40,7 @@ export class FeedService {
 
   read(): Observable<FeedResponse> {
     return this.http.get<FeedResponse>(this.feedUrl, this.httpOptions).pipe(
-      tap(_ => console.log(`read feed`)),
+      //tap(_ => console.log(`read feed`)),
       map((res: IFeedResponse) => {
         return new FeedResponse(res as IFeedResponse)
       }),
