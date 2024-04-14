@@ -1,5 +1,13 @@
+
+<app-scanners-land-map 
+    [width]="400" 
+    [height]="300"
+    [mapId]="'land-map'"
+    [feeds]="selectFeedsAroundSelected()">
+</app-scanners-land-map>        
+
 <div *ngIf="!hasResults()">No scan results</div>    
-<div *ngIf="hasResults()">
+<div *ngIf="hasResults()" class="results">
     <a href="#" (click)="selectLastFeed()" >select newest feed </a>
     <table>
         <thead>
@@ -22,10 +30,3 @@
         </tbody>
     </table>
 </div>    
-
-<app-scanners-land-map 
-    [width]="400" 
-    [height]="300"
-    [mapId]="'land-map'"
-    [feeds]="selectFeedsAroundSelected()">
-</app-scanners-land-map>        

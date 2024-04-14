@@ -17,11 +17,11 @@ export class FeedService {
   private numberOfMinutes = 3;
   private feedUrlLastMinutes = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?minutes=${this.numberOfMinutes}`;
   
-  private numberOfResults = 10;
+  private numberOfResults = 250;
   private feedUrlLastResults = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?results=${this.numberOfResults}`;
 
-  private feedUrl = this.feedUrlLastMinutes;
-  //private feedUrl = this.feedUrlLastResults;
+  //private feedUrl = this.feedUrlLastMinutes;
+  private feedUrl = this.feedUrlLastResults;
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
