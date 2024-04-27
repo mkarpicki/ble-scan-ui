@@ -14,5 +14,12 @@ export const SCANNERS_POSITIONS: IScannerPosition [] = [
       x: 3,
       y: 15.4,
       signalMultiplier: 1
+    },
+    {
+      scannerName: '3rd',
+      mapId: "land-map",
+      x: 36,
+      y: 25,
+      signalMultiplier: 1
     }
 ];

@@ -11,7 +11,7 @@ export class DistanceCalculatorService {
 
   /* 
   * @todo
-    implement based on real measurements
+    test on real data
   */
   estimateDistanceBySignal(rssi: number, scanner: IScanner): number {
     const n = 2;

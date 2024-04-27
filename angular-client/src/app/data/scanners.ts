@@ -8,5 +8,9 @@ export const SCANNERS: IScanner [] = [
     {
       name: "garrage", 
       address: "24:0A:C4:32:36:2C"
+    },
+    {
+      name: "3rd",
+      address: "xx:xx:xx:xx:xx:xx"
     }
 ];

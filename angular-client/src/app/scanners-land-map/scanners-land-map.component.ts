@@ -43,7 +43,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   private positions: IScannerPosition[] = SCANNERS_POSITIONS;
 
   private context : any;
-  private signalColor = '#27AE60';
+  private signalColor = '#00008B';
 
   private landShift = {
     left: 0,
@@ -65,8 +65,13 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
   private scannerComponentUI = {
     radius: 0.5,
-    color: '#00008B'
+    color: '#ff66ff'
   };
+
+  private robotoComponentUI = {
+    radius: 0.5,
+    color: 'red'
+  }
 
   private flowerBeds = [
     {
@@ -83,7 +88,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
   private getZoomLevel() {
     return (this.width / this.land.width);
-    //in case I build mor egeneric component and I consider this.land.width < this.land.height
+    //in case I build more generic component and I consider this.land.width < this.land.height
     //then this method should calculate on height operation
   }
 
@@ -183,17 +188,15 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     return robotSimulatedPositions;
   }
 
-  // @todo - move robot style to const
   private drawSimulatedRobotPositons(robotPositions: any[]) {
+    
     let drawable: any[] =[];
     robotPositions.forEach(robotPosition => {
-      console.log('robotPosition');
-      console.log(robotPosition);
       drawable.push({
-        color: 'red',
+        color: this.robotoComponentUI.color,
         left: robotPosition.x,
-        top: this.land.height - robotPosition.y,
-        radius: 0.5
+        top: (this.land.height - robotPosition.y),
+        radius: this.robotoComponentUI.radius      
       });
     });
     this.drawObjects(drawable);
@@ -231,8 +234,8 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     this.context.lineWidth = 1;
 
     /* render land */
-    this.context.strokeStyle = '#000000';
-    this.context.strokeRect(
+    this.context.fillStyle = '#99e699';
+    this.context.fillRect(
         this.zoom(this.landShift.left), 
         this.zoom(this.landShift.top), 
         this.zoom(this.land.width), 
@@ -240,8 +243,8 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     );
 
     /* render house */
-    this.context.strokeStyle = '#000000';
-    this.context.strokeRect(
+    this.context.fillStyle = '#00004d';
+    this.context.fillRect(
         this.zoom(this.getHousePosion().left), 
         this.zoom(this.getHousePosion().top), 
         this.zoom(this.house.width), 
@@ -262,6 +265,15 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     this.context.stroke();
     this.context.closePath();
 
+    //draw parking on left
+    this.context.fillStyle = '#cccccc';
+    this.context.fillRect(
+        this.zoom(this.landShift.left),
+        this.zoom(this.getHousePosion().top),
+        this.zoom(this.getHousePosion().left),
+        this.zoom(this.land.height - this.getHousePosion().top)
+    );    
+
     /* simulate line with parking on right*/
     this.context.strokeStyle = '#000000';
     this.context.beginPath();
@@ -275,6 +287,15 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     );
     this.context.stroke();
     this.context.closePath();
+
+    //draw parking under (on front of) house
+    this.context.fillStyle = '#cccccc';
+    this.context.fillRect(
+        this.zoom(this.landShift.left),
+        this.zoom(this.getHousePosion().top + this.house.height),
+        this.zoom(this.land.width),
+        this.zoom(this.land.height - this.getHousePosion().top - this.house.height)
+    );    
 
     //this.drawFlowerBeds();
 

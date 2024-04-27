@@ -190,8 +190,10 @@ var render = function () {
     context.lineWidth = 1;
 
     /* render land */
-    context.strokeStyle = '#000000';
-    context.strokeRect(
+    //context.strokeStyle = '#000000';    
+    //context.strokeRect(
+    context.fillStyle = '#99e699';
+    context.fillRect(
         zoom(landShift.left), 
         zoom(landShift.top), 
         zoom(land.width), 
@@ -199,8 +201,8 @@ var render = function () {
     );
 
     /* render house */
-    context.strokeStyle = '#000000';
-    context.strokeRect(
+    context.fillStyle = '#47476b';
+    context.fillRect(
         zoom(getHousePosion().left), 
         zoom(getHousePosion().top), 
         zoom(house.width), 
@@ -221,6 +223,14 @@ var render = function () {
     context.stroke();
     context.closePath();
 
+    context.fillStyle = '#cccccc';
+    context.fillRect(
+        zoom(landShift.left),
+        zoom(getHousePosion().top),
+        zoom(getHousePosion().left),
+        zoom(land.height - getHousePosion().top)
+    );
+
     /* simulate line with parking on right*/
     context.strokeStyle = '#000000';
     context.beginPath();
@@ -234,6 +244,14 @@ var render = function () {
     );
     context.stroke();
     context.closePath();
+
+    context.fillStyle = '#cccccc';
+    context.fillRect(
+        zoom(landShift.left),
+        zoom(getHousePosion().top + house.height),
+        zoom(land.width),
+        zoom(land.height - getHousePosion().top - house.height)
+    );
 
     drawObjects(context, scanners);
 
