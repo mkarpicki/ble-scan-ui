@@ -135,8 +135,10 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
         scannersToDraw.push({
           color: this.scannerComponentUI.color,
           radius: this.scannerComponentUI.radius,
-          left: position.left,
-          top: position.top
+          //left: position.left,
+          //top: position.top
+          left: position.x,
+          top: this.land.height - position.y
         });
       }
     }) ;
@@ -154,8 +156,10 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
             let distance = this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scanner);
             signalsToDraw.push({
                 color: this.signalColor,
-                left: position.left,
-                top: position.top,
+                //left: position.left,
+                //top: position.top,
+                left: position.x,
+                top: this.land.height - position.y,
                 radius: distance
             });
           }
