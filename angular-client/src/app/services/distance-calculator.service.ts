@@ -11,7 +11,9 @@ export class DistanceCalculatorService {
 
   /* 
   * @todo
-    test on real data
+    test on real data, 
+    there is a chance that measured_power must come from each scanner config not be hardcoded here
+    must test on rach with 1m range
   */
   estimateDistanceBySignal(rssi: number, scanner: IScanner): number {
     const n = 2;
