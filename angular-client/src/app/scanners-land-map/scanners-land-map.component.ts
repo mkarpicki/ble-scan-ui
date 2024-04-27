@@ -57,7 +57,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
       width: 19,
       height: 10.5
   };
-  private houseShift = {
+  private housePosition = {
       left: 5.5,
       top: 10.6
   }
@@ -69,8 +69,8 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
   private flowerBeds = [
     {
-      topShift: 4,
-      leftShift: 11,
+      topPosition: 4,
+      leftPosition: 11,
       sizeY: 4.2 / 2, 
       sizeX: 7.6 / 2
     }
@@ -88,8 +88,8 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
   private getHousePosion() {
     return {
-      left: this.landShift.left + this.houseShift.left,
-      top: this.landShift.top + this.houseShift.top
+      left: this.landShift.left + this.housePosition.left,
+      top: this.landShift.top + this.housePosition.top
     };
   };
 
@@ -151,7 +151,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
         if (scanner) {
           let position = this.findScannerPositionOnMap(scanner);
           if (position) {
-            let distance = this.distanceCalculatorService.calculate(feed.rssi(), scanner);
+            let distance = this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scanner);
             signalsToDraw.push({
                 color: this.signalColor,
                 left: position.left,
@@ -220,7 +220,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     this.context.stroke();
     this.context.closePath();
 
-    this.drawFlowerBeds();
+    //this.drawFlowerBeds();
 
     this.drawScanners(this.scanners);
     this.drawDistances(this.feeds);
@@ -233,8 +233,8 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
       this.context.beginPath();
 
       this.context.ellipse(
-        this.zoom( this.landShift.left + flowerBed.leftShift ), 
-        this.zoom( this.landShift.top + flowerBed.topShift),  
+        this.zoom( this.landShift.left + flowerBed.leftPosition ), 
+        this.zoom( this.landShift.top + flowerBed.topPosition),  
         this.zoom( flowerBed.sizeX ), 
         this.zoom( flowerBed.sizeY) , 
         0, 

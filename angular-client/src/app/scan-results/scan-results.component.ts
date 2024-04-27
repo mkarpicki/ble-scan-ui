@@ -115,7 +115,7 @@ export class ScanResultsComponent implements OnChanges {
   distance(feed: Feed): number | unknown {
     const scanner = this.findScannerByAddress(feed.scannerMacAddress());
     if (scanner) {
-      return this.distanceCalculatorService.calculate(feed.rssi(), scanner);
+      return this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scanner);
     }
     return undefined;
   }
