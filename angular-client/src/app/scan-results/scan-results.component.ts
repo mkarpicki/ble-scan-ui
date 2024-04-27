@@ -81,6 +81,8 @@ export class ScanResultsComponent implements OnChanges {
     let filteredResults: Feed[] = [];
 
     const feedToCompare = this.selectedFeed !== undefined ? this.selectedFeed : this.newestResult();
+    filteredResults.push(feedToCompare);
+    hashOfResults[feedToCompare.scannerMacAddress()] = true;
 
     results.forEach(result => {
 
