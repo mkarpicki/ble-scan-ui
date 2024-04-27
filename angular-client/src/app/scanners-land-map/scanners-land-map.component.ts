@@ -15,7 +15,7 @@ import { Feed } from '../types/thingspeak/feed';
 import { IScannerPosition } from '../interfaces/scanner-position.interface';
 import { IScanner } from '../interfaces/scanner.interface';
 
-import { POSITIONS } from '../data/scanner-positions';
+import { SCANNERS_POSITIONS } from '../data/scanners-positions';
 import { SCANNERS } from '../data/scanners';
 
 
@@ -39,7 +39,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   private canvas?: HTMLCanvasElement;
 
   private scanners: IScanner[] = SCANNERS;
-  private positions: IScannerPosition[] = POSITIONS;
+  private positions: IScannerPosition[] = SCANNERS_POSITIONS;
 
   private context : any;
   private signalColor = '#27AE60';
