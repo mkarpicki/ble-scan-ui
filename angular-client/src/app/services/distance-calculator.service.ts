@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IScanner } from '../interfaces/scanner.interface';
+import { IPosition } from '../interfaces/position.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class DistanceCalculatorService {
     //return (rssi * (-1)) / 33;
   }
 
-  circleIntersection (circle1: any, circle2: any): any[] {
+  circleIntersection (circle1: any, circle2: any): IPosition[] {
     // Extract circle information
     const { x: x1, y: y1, radius: r1 } = circle1;
     const { x: x2, y: y2, radius: r2 } = circle2;
@@ -57,10 +58,11 @@ export class DistanceCalculatorService {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
   }
 
-  trilaterate (points: any[]): any {
+  trilaterate (points: any[]): IPosition {
     // Check if we have enough points
     if (points.length < 3) {
-        return;
+        //return;
+        throw new EvalError("Not enough points");
     }
     
     // Extract coordinates and distances

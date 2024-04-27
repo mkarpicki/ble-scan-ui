@@ -17,6 +17,7 @@ import { IScanner } from '../interfaces/scanner.interface';
 
 import { SCANNERS_POSITIONS } from '../data/scanners-positions';
 import { SCANNERS } from '../data/scanners';
+import { IPosition } from '../interfaces/position.interface';
 
 
 @Component({
@@ -135,8 +136,6 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
         scannersToDraw.push({
           color: this.scannerComponentUI.color,
           radius: this.scannerComponentUI.radius,
-          //left: position.left,
-          //top: position.top
           left: position.x,
           top: this.land.height - position.y
         });
@@ -145,7 +144,62 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     this.drawObjects(scannersToDraw);
   }
 
-  private drawDistances(feeds: Feed[] | undefined) {
+  private getSimulatedRobotPositions(feeds: Feed[] | undefined): any[] {
+    
+    let scannersPositions: any[] = [];
+    let robotSimulatedPositions: IPosition[] = [];
+    
+    feeds?.forEach(feed => {
+      let scanner = this.findScannerByAddress(feed.scannerMacAddress());
+      if (scanner) {
+        let distance = this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scanner);
+        let position = this.findScannerPositionOnMap(scanner);
+        if (position) {
+          let item = {
+            x: position.x,
+            y: position.y,
+            radius: distance
+          };
+          scannersPositions.push(item);
+        }
+      }      
+    });
+
+    if (scannersPositions.length === 2) {
+
+      robotSimulatedPositions = this.distanceCalculatorService.circleIntersection(
+        scannersPositions[0], 
+        scannersPositions[1]
+      );
+
+    } else if (scannersPositions.length > 2) {
+
+      robotSimulatedPositions.push(
+        this.distanceCalculatorService.trilaterate(scannersPositions)
+      );
+
+    }
+
+    return robotSimulatedPositions;
+  }
+
+  // @todo - move robot style to const
+  private drawSimulatedRobotPositons(robotPositions: any[]) {
+    let drawable: any[] =[];
+    robotPositions.forEach(robotPosition => {
+      console.log('robotPosition');
+      console.log(robotPosition);
+      drawable.push({
+        color: 'red',
+        left: robotPosition.x,
+        top: this.land.height - robotPosition.y,
+        radius: 0.5
+      });
+    });
+    this.drawObjects(drawable);
+  }
+
+  private drawSignals(feeds: Feed[] | undefined) {
           
     let signalsToDraw: any[] = [];
     feeds?.forEach(feed => {
@@ -156,8 +210,6 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
             let distance = this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scanner);
             signalsToDraw.push({
                 color: this.signalColor,
-                //left: position.left,
-                //top: position.top,
                 left: position.x,
                 top: this.land.height - position.y,
                 radius: distance
@@ -227,7 +279,11 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     //this.drawFlowerBeds();
 
     this.drawScanners(this.scanners);
-    this.drawDistances(this.feeds);
+    this.drawSignals(this.feeds);
+
+    this.drawSimulatedRobotPositons(
+      this.getSimulatedRobotPositions(this.feeds)
+    );
     
   }
 
