@@ -61,7 +61,12 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   private housePosition = {
       left: 5.5,
       top: 10.6
-  }
+  };
+  private terrace = {
+    width: 6,
+    height: 4
+}
+
 
   private scannerComponentUI = {
     radius: 0.5,
@@ -243,12 +248,21 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     );
 
     /* render house */
-    this.context.fillStyle = '#00004d';
+    this.context.fillStyle = '#47476b';
     this.context.fillRect(
         this.zoom(this.getHousePosion().left), 
         this.zoom(this.getHousePosion().top), 
         this.zoom(this.house.width), 
         this.zoom(this.house.height)
+    );
+
+    /* render terace */
+    this.context.fillStyle = '#cccccc';
+    this.context.fillRect(
+      this.zoom(this.getHousePosion().left + this.house.width - this.terrace.width),
+      this.zoom(this.getHousePosion().top - this.terrace.height),
+      this.zoom(this.terrace.width),
+      this.zoom(this.terrace.height),
     );
 
     /* simulate line with parking on left */

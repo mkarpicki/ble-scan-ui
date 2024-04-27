@@ -43,6 +43,11 @@ var houseShift = {
     top: 10.6
 }
 
+var terrace = {
+    width: 6,
+    height: 4
+}
+
 var zoom = function (dimention) {
     return zoomLevel * dimention;
 }
@@ -190,8 +195,6 @@ var render = function () {
     context.lineWidth = 1;
 
     /* render land */
-    //context.strokeStyle = '#000000';    
-    //context.strokeRect(
     context.fillStyle = '#99e699';
     context.fillRect(
         zoom(landShift.left), 
@@ -199,6 +202,16 @@ var render = function () {
         zoom(land.width), 
         zoom(land.height)
     );
+
+    /* render terace */
+    context.fillStyle = '#cccccc';
+    context.fillRect(
+        zoom(getHousePosion().left + house.width - terrace.width),
+        zoom(getHousePosion().top - terrace.height),
+        zoom(terrace.width),
+        zoom(terrace.height),
+    );
+
 
     /* render house */
     context.fillStyle = '#47476b';
