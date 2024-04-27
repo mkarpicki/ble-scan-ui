@@ -12,10 +12,10 @@ import {
 import { DistanceCalculatorService } from '../services/distance-calculator.service';
 import { Feed } from '../types/thingspeak/feed';
 
-import { IPosition } from '../interfaces/position.interface';
+import { IScannerPosition } from '../interfaces/scanner-position.interface';
 import { IScanner } from '../interfaces/scanner.interface';
 
-import { POSITIONS } from '../data/positions';
+import { POSITIONS } from '../data/scanner-positions';
 import { SCANNERS } from '../data/scanners';
 
 
@@ -39,7 +39,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   private canvas?: HTMLCanvasElement;
 
   private scanners: IScanner[] = SCANNERS;
-  private positions: IPosition[] = POSITIONS;
+  private positions: IScannerPosition[] = POSITIONS;
 
   private context : any;
   private signalColor = '#27AE60';
@@ -115,7 +115,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     });   
   };
 
-  private findScannerPositionOnMap(scanner: IScanner): IPosition | undefined {
+  private findScannerPositionOnMap(scanner: IScanner): IScannerPosition | undefined {
 
     return this.positions.find(position => {
       return (position.scannerName === scanner.name && position.mapId === this.mapId);

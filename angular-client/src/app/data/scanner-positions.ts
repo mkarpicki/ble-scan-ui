@@ -1,6 +1,6 @@
-import { IPosition } from "../interfaces/position.interface";
+import { IScannerPosition } from "../interfaces/scanner-position.interface";
 
-export const POSITIONS: IPosition [] = [
+export const POSITIONS: IScannerPosition [] = [
     {
       scannerName: "livin-room", 
       mapId: "land-map" ,

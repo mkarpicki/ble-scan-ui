@@ -1,4 +1,4 @@
-export interface IPosition {
+export interface IScannerPosition {
     top: number;
     left: number;
     x: number;
