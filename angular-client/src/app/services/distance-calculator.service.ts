@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IScanner } from '../interfaces/scanner.interface';
 import { IPosition } from '../interfaces/position.interface';
+import { IScannerPosition } from '../interfaces/scanner-position.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +15,9 @@ export class DistanceCalculatorService {
     there is a chance that measured_power must come from each scanner config not be hardcoded here
     must test on rach with 1m range
   */
-  estimateDistanceBySignal(rssi: number, scanner: IScanner): number {
+  estimateDistanceBySignal(rssi: number, scannerPosition: IScannerPosition): number {
     const n = 2;
-    const measured_power = -69;
+    const measured_power = scannerPosition.measuredPowerOneMeter || -69; // falback
     const pow = Math.pow(10, ((measured_power -rssi) / (10 * n)));
     return Math.round(pow * 100) / 100;
     //return (rssi * (-1)) / 33;

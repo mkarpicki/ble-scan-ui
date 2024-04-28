@@ -15,7 +15,7 @@ import { Feed } from '../types/thingspeak/feed';
 import { IScannerPosition } from '../interfaces/scanner-position.interface';
 import { IScanner } from '../interfaces/scanner.interface';
 
-import { SCANNERS_POSITIONS } from '../data/scanners-positions';
+import { findScannerPositionOnMap } from '../data/scanners-positions';
 import { SCANNERS } from '../data/scanners';
 import { IPosition } from '../interfaces/position.interface';
 
@@ -40,7 +40,6 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   private canvas?: HTMLCanvasElement;
 
   private scanners: IScanner[] = SCANNERS;
-  private positions: IScannerPosition[] = SCANNERS_POSITIONS;
 
   private context : any;
   private signalColor = '#00008B';
@@ -127,10 +126,7 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
   };
 
   private findScannerPositionOnMap(scanner: IScanner): IScannerPosition | undefined {
-
-    return this.positions.find(position => {
-      return (position.scannerName === scanner.name && position.mapId === this.mapId);
-    });
+    return findScannerPositionOnMap(scanner.name, this.mapId);
   }
 
   private drawScanners(scanners: IScanner[] | undefined) {
@@ -141,13 +137,13 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
 
     let scannersToDraw: any[] = []; 
     scanners.forEach(scanner => {
-      let position = this.findScannerPositionOnMap(scanner);
-      if (position) {
+      let scannerPosition = this.findScannerPositionOnMap(scanner);
+      if (scannerPosition) {
         scannersToDraw.push({
           color: this.scannerComponentUI.color,
           radius: this.scannerComponentUI.radius,
-          left: position.x,
-          top: this.land.height - position.y
+          left: scannerPosition.x,
+          top: this.land.height - scannerPosition.y
         });
       }
     }) ;
@@ -162,12 +158,13 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     feeds?.forEach(feed => {
       let scanner = this.findScannerByAddress(feed.scannerMacAddress());
       if (scanner) {
-        let distance = this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scanner);
-        let position = this.findScannerPositionOnMap(scanner);
-        if (position) {
+        let scannerPosition = this.findScannerPositionOnMap(scanner);
+        
+        if (scannerPosition) {
+          let distance = this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scannerPosition);        
           let item = {
-            x: position.x,
-            y: position.y,
+            x: scannerPosition.x,
+            y: scannerPosition.y,
             radius: distance
           };
           scannersPositions.push(item);
@@ -213,13 +210,13 @@ export class ScannersLandMapComponent implements AfterViewInit, OnChanges {
     feeds?.forEach(feed => {
         let scanner = this.findScannerByAddress(feed.scannerMacAddress());
         if (scanner) {
-          let position = this.findScannerPositionOnMap(scanner);
-          if (position) {
-            let distance = this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scanner);
+          let scannerPosition = this.findScannerPositionOnMap(scanner);
+          if (scannerPosition) {
+            let distance = this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scannerPosition);
             signalsToDraw.push({
                 color: this.signalColor,
-                left: position.x,
-                top: this.land.height - position.y,
+                left: scannerPosition.x,
+                top: this.land.height - scannerPosition.y,
                 radius: distance
             });
           }

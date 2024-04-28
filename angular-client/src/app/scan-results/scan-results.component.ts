@@ -3,6 +3,8 @@ import { IScanner } from '../interfaces/scanner.interface';
 import { Feed } from '../types/thingspeak/feed';
 import { DistanceCalculatorService } from '../services/distance-calculator.service';
 import { SCANNERS } from '../data/scanners';
+import { findScannerPositionOnMap } from '../data/scanners-positions';
+
 
 @Component({
   selector: 'app-scan-results',
@@ -12,10 +14,15 @@ import { SCANNERS } from '../data/scanners';
 export class ScanResultsComponent implements OnChanges {
 
   @Input() feeds?: Feed[] = [];
+
+  // todo
+  //hardcoded now but maybe should come from above?
+  mapId: string = 'land-map';
   
   scanners: IScanner [] = SCANNERS;
 
-  private minutesToSearch = 1;
+  //this is time range when searching other scanners signal close to selected feed (signal)
+  private secondsToSearch = 30;
 
   private keepSelectingLast = true;
   private selectedFeed?: Feed = undefined;
@@ -44,7 +51,7 @@ export class ScanResultsComponent implements OnChanges {
   }
 
   private isScanTimeClose(timestamp1: number, timestamp2: number): boolean {
-    let diff = 1000 * 60 * this.minutesToSearch;
+    let diff = 1000 * this.secondsToSearch;
     
     if (timestamp1 >= timestamp2) {
       return (timestamp1 - timestamp2) <= diff;
@@ -120,7 +127,10 @@ export class ScanResultsComponent implements OnChanges {
   distance(feed: Feed): number | unknown {
     const scanner = this.findScannerByAddress(feed.scannerMacAddress());
     if (scanner) {
-      return this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scanner);
+      let scannerPosition = findScannerPositionOnMap(scanner.name, this.mapId);
+      if (scannerPosition) {
+        return this.distanceCalculatorService.estimateDistanceBySignal(feed.rssi(), scannerPosition);
+      }
     }
     return undefined;
   }

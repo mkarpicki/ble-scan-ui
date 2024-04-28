@@ -2,7 +2,7 @@
 <app-scanners-land-map 
     [width]="400" 
     [height]="300"
-    [mapId]="'land-map'"
+    [mapId]="mapId"
     [feeds]="selectFeedsAroundSelected()">
 </app-scanners-land-map>        
 
@@ -16,7 +16,7 @@
                 <th>date</th>
                 <th>time</th>
                 <th>rssi</th>
-                <th>distance</th>
+                <th>distance ({{mapId}})</th>
             </tr>
         </thead>
         <tbody>

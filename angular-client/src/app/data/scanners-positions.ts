@@ -6,20 +6,26 @@ export const SCANNERS_POSITIONS: IScannerPosition [] = [
       mapId: "land-map" ,
       x: 23.5,
       y: 15.4,
-      signalMultiplier: 1.1
+      measuredPowerOneMeter: -64
     },
     {
       scannerName: "garrage", 
       mapId: "land-map",
       x: 3,
       y: 15.4,
-      signalMultiplier: 1
+      measuredPowerOneMeter: -80
     },
     {
       scannerName: '3rd',
       mapId: "land-map",
       x: 36,
       y: 25,
-      signalMultiplier: 1
+      measuredPowerOneMeter: -80 //to test
     }
 ];
+
+export function findScannerPositionOnMap(name: string, mapId: string): IScannerPosition | undefined {
+  return SCANNERS_POSITIONS.find(position => {
+    return (position.scannerName === name && position.mapId === mapId);
+  });
+}
