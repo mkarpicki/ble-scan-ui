@@ -6,14 +6,14 @@ export const SCANNERS_POSITIONS: IScannerPosition [] = [
       mapId: "land-map" ,
       x: 23.5,
       y: 15.4,
-      measuredPowerOneMeter: -64
+      measuredPowerOneMeter: -63 //-64
     },
     {
       scannerName: "garrage", 
       mapId: "land-map",
       x: 3,
       y: 15.4,
-      measuredPowerOneMeter: -80
+      measuredPowerOneMeter: -63 //-80
     },
     {
       scannerName: '3rd',

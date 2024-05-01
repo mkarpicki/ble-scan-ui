@@ -11,6 +11,6 @@ export const SCANNERS: IScanner [] = [
     },
     {
       name: "3rd",
-      address: "xx:xx:xx:xx:xx:xx"
+      address: "24:0A:C4:31:36:74"
     }
 ];

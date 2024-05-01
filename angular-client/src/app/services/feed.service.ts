@@ -14,10 +14,10 @@ import { Feed } from '../types/thingspeak/feed';
 export class FeedService {
 
   private channelId = "502402"; //todo: move to config
-  private numberOfMinutes = 3;
+  private numberOfMinutes = 5;
   private feedUrlLastMinutes = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?minutes=${this.numberOfMinutes}`;
   
-  private numberOfResults = 250;
+  private numberOfResults = 60;
   private feedUrlLastResults = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?results=${this.numberOfResults}`;
 
   //private feedUrl = this.feedUrlLastMinutes;
