@@ -20,6 +20,11 @@ export class FeedService {
   private numberOfResults = 60;
   private feedUrlLastResults = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?results=${this.numberOfResults}`;
 
+  private startToEnd = `start=2024-05-04%2010:10:00&end=2024-05-04%2011:00`;
+  private feedUrlTime = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?${this.startToEnd}`;
+
+
+  //private feedUrl = this.feedUrlTime;
   //private feedUrl = this.feedUrlLastMinutes;
   private feedUrl = this.feedUrlLastResults;
 
