@@ -60,18 +60,20 @@ export class ScanResultsComponent implements OnChanges {
     }
   }
 
-  selectLastFeed(): void {
+  selectLastFeed(): boolean {
     if (this.hasResults()) {
       this.selectFeed(this.newestResult());
     } else {
       this.selectFeed(undefined);
     }
     this.keepSelectingLast = true;
+    return false;
   }
 
-  selectFeed(feed: Feed | undefined): void {
+  selectFeed(feed: Feed | undefined): boolean {
     this.selectedFeed = feed;
     this.keepSelectingLast = false;
+    return false;
   }
 
   results(): Feed[] {
