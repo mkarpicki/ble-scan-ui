@@ -4,6 +4,7 @@ import { Feed } from '../types/thingspeak/feed';
 import { DistanceCalculatorService } from '../services/distance-calculator.service';
 import { SCANNERS } from '../data/scanners';
 import { findScannerPositionOnMap } from '../data/scanners-positions';
+import { FeedResponse } from '../types/thingspeak/feed-response';
 
 
 @Component({
@@ -74,6 +75,33 @@ export class ScanResultsComponent implements OnChanges {
     this.selectedFeed = feed;
     this.keepSelectingLast = false;
     return false;
+  }
+
+  selectNextFeed(): boolean {
+    this.moveFeedByEntryId(+1);
+    return false;
+  }
+
+  selectPrevFeed(): boolean {
+    this.moveFeedByEntryId(-1);    
+    return false;
+  }
+
+  moveFeedByEntryId(diff: number): boolean {
+    if (this.selectedFeed) {
+      let entryId = this.selectedFeed.entryId() + diff;
+      this.selectFeed(this.findFeedByEntryId(entryId));
+    } else {
+      this.selectLastFeed();
+    }    
+    return false;    
+  }
+
+  findFeedByEntryId(entryId: number): Feed | undefined {
+    
+    return this.results().find(feed => {
+      return feed.entryId() === entryId;
+    });
   }
 
   results(): Feed[] {

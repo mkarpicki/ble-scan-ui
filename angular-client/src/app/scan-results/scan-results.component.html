@@ -9,6 +9,8 @@
 <div *ngIf="!hasResults()">No scan results</div>    
 <div *ngIf="hasResults()" class="results">
     <a href="#" (click)="selectLastFeed()" >select newest feed </a>
+    <a href="#" (click)="selectNextFeed();">select next</a>
+    <a href="#" (click)="selectPrevFeed();">select previous</a>
     <table>
         <thead>
             <tr>
