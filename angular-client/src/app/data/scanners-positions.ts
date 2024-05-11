@@ -18,8 +18,8 @@ export const SCANNERS_POSITIONS: IScannerPosition [] = [
     {
       scannerName: '3rd',
       mapId: "land-map",
-      x: 36,
-      y: 25,
+      x: 34,
+      y: 6,
       measuredPowerOneMeter: -80 //to test
     }
 ];
