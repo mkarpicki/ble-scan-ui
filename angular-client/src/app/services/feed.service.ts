@@ -13,15 +13,16 @@ import { Feed } from '../types/thingspeak/feed';
 })
 export class FeedService {
 
-  private channelId = "502402"; //todo: move to config
+  private channelId = "2544317"; //todo: move to config
+  private apiKey = "BTSBOV8OU07J60Q1";
   private numberOfMinutes = 5;
-  private feedUrlLastMinutes = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?minutes=${this.numberOfMinutes}`;
+  private feedUrlLastMinutes = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?api_key=${this.apiKey}&minutes=${this.numberOfMinutes}`;
   
   private numberOfResults = 60;
-  private feedUrlLastResults = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?results=${this.numberOfResults}`;
+  private feedUrlLastResults = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?api_key=${this.apiKey}&results=${this.numberOfResults}`;
 
   private startToEnd = `start=2024-05-04%2010:10:00&end=2024-05-04%2011:00`;
-  private feedUrlTime = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?${this.startToEnd}`;
+  private feedUrlTime = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?api_key=${this.apiKey}&${this.startToEnd}`;
 
 
   //private feedUrl = this.feedUrlTime;
