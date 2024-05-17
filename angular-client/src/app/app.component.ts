@@ -15,7 +15,7 @@ import { Channel } from './types/thingspeak/channel';
 })
 export class AppComponent {
   
-  title = 'angular-ble-viewer';
+  title = 'BLE scanner';
   feedResponse?: FeedResponse; 
   feeds?: Feed [];
   channel?: Channel;

@@ -1,10 +1,9 @@
-<ul>
+<ul class="uk-list">
     <li *ngFor="let beacon of beacons">
-        <div>
-            <span>{{beacon.name}}</span>&nbsp;
-            <span>({{beacon.address}})</span>           
+        <div class="uk-padding">
+            <span class="uk-text-primary">{{beacon.name}}</span>&nbsp;
+            <span class="uk-text-muted">({{beacon.address}})</span>           
         </div>
-        <app-scan-results [feeds]="results(beacon)"></app-scan-results>
-              
+        <app-scan-results [feeds]="results(beacon)"></app-scan-results>       
     </li>
 </ul>
