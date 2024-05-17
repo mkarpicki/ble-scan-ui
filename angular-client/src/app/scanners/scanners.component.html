@@ -1,11 +1,21 @@
-<ul>
-    <li *ngFor="let scanner of scanners">
-        <div><span>address: </span>{{scanner.address}}</div>
-        <div><span>name: </span>{{scanner.name}}</div>
-        <div>
-            <span>last entry: </span>{{lastEntry(scanner) | date}} &nbsp; {{lastEntry(scanner) | time }}
-        </div>
-        
-    </li>
-</ul>
+<div class="uk-card uk-card-default uk-card-body">
+    <ul uk-accordion>
+        <li>
+            <a class="uk-accordion-title" href>Scanners</a>
+            <div class="uk-accordion-content">
+                <ul>
+                    <li *ngFor="let scanner of scanners">
+                        <div><span>address: </span>{{scanner.address}}</div>
+                        <div><span>name: </span>{{scanner.name}}</div>
+                        <div>
+                            <span>last entry: </span>{{lastEntry(scanner) | date}} &nbsp; {{lastEntry(scanner) | time }}
+                        </div>
+                        
+                    </li>
+                </ul>
+                
+            </div>
+        </li>
+    </ul>
+</div>
 
