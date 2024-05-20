@@ -1,6 +1,6 @@
 <div class="uk-child-width-expand@s uk-text-center" uk-grid>
     <div>
-        <div class="uk-card uk-card-default uk-card-body">
+        <div class="uk-padding-remove-bottom uk-card uk-card-default uk-card-body">
             <app-scanners-land-map 
                 [width]="400" 
                 [height]="300"
@@ -10,42 +10,38 @@
         </div>
     </div>
     <div>
-        <div class="uk-card uk-card-default uk-card-body">
+        <div class="uk-padding-remove-top uk-card uk-card-default uk-card-body">
             <div *ngIf="!hasResults()">No scan results</div>  
-            <ul uk-accordion *ngIf="hasResults()">
-                <li>
-                    <a class="uk-accordion-title" href>results</a>
-                    <div class="uk-accordion-content">
-                        <div class="uk-padding" >
-                            <button class="uk-button uk-button-default uk-button-small" (click)="selectLastFeed()" >show current</button>
-                            <button class="uk-button uk-button-default uk-button-small" (click)="selectNextFeed();">show next</button>
-                            <button class="uk-button uk-button-default uk-button-small" (click)="selectPrevFeed();">show previous</button>
-                        </div>
-                        <div class="results">
-                            <table class="uk-table uk-table-striped">
-                                <thead>
-                                    <tr class="uk-padding">
-                                        <th>scanner name</th>
-                                        <!-- <th>date</th> -->
-                                        <th>time</th>
-                                        <th>rssi</th>
-                                        <th>distance ({{mapId}})</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let feed of feeds" class="uk-padding">
-                                        <td><a href="#" (click)="selectFeed(feed)">{{ getScannerNameByAddress(feed.scannerMacAddress()) }}</a></td>
-                                        <!-- <td><a href="#" (click)="selectFeed(feed)">{{ feed.createdAt() | date }}</a></td> -->
-                                        <td><a href="#" (click)="selectFeed(feed)">{{ feed.createdAt() | time }}</a></td>
-                                        <td><a href="#" (click)="selectFeed(feed)">{{ feed.rssi() }}</a></td>
-                                        <td><a href="#" (click)="selectFeed(feed)">{{ distance(feed) }}</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>    
-                        </div>                    
-                    </div>
-                </li>
-            </ul>  
+            <div *ngIf="hasResults()" class="uk-padding-small">
+                <button class="uk-button uk-button-default uk-button-small" (click)="selectLastFeed()" >show current</button><br>
+                <button class="uk-button uk-button-default uk-button-small" (click)="selectNextFeed();">show next</button>
+                <button class="uk-button uk-button-default uk-button-small" (click)="selectPrevFeed();">show previous</button>
+            </div>              
+            <div *ngIf="hasResults()" class="results">               
+                <table class="uk-table uk-table-striped">
+                    <thead>
+                        <tr class="uk-padding-small">
+                            <th>scanner name</th>
+                            <!-- <th>date</th> -->
+                            <th>time</th>
+                            <th>rssi</th>
+                            <th>distance ({{mapId}})</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let feed of feeds" class="uk-padding-small">
+                            <td><a href="#" (click)="selectFeed(feed)">{{ getScannerNameByAddress(feed.scannerMacAddress()) }}</a></td>
+                            <!-- <td><a href="#" (click)="selectFeed(feed)">{{ feed.createdAt() | date }}</a></td> -->
+                            <td><a href="#" (click)="selectFeed(feed)">{{ feed.createdAt() | time }}</a></td>
+                            <td><a href="#" (click)="selectFeed(feed)">{{ feed.rssi() }}</a></td>
+                            <td>
+                                <a href="#" (click)="selectFeed(feed)">{{ distance(feed) }}</a>
+                                &nbsp;<span *ngIf="isSelectedFeed(feed)" uk-icon="icon: eye"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>    
+            </div> 
         </div>
     </div>
 </div>
