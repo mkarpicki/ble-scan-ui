@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let feed of feeds" class="uk-padding-small">
+                        <tr *ngFor="let feed of feeds" class="uk-padding-small" id="{{ feed.entryId() }}">
                             <td><a href="#" (click)="selectFeed(feed)">{{ getScannerNameByAddress(feed.scannerMacAddress()) }}</a></td>
                             <!-- <td><a href="#" (click)="selectFeed(feed)">{{ feed.createdAt() | date }}</a></td> -->
                             <td><a href="#" (click)="selectFeed(feed)">{{ feed.createdAt() | time }}</a></td>

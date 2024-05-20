@@ -61,8 +61,12 @@ export class ScanResultsComponent implements OnChanges {
     }
   }
 
+  /*
+    @todo
+    jump to selected (scoll)
+  */
   isSelectedFeed(feed: Feed | undefined): boolean {
-    return (feed === this.selectedFeed);
+    return (feed?.entryId() === this.selectedFeed?.entryId());
   }
 
   selectLastFeed(): boolean {
