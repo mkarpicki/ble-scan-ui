@@ -61,6 +61,10 @@ export class ScanResultsComponent implements OnChanges {
     }
   }
 
+  isSelectedFeed(feed: Feed | undefined): boolean {
+    return (feed === this.selectedFeed);
+  }
+
   selectLastFeed(): boolean {
     if (this.hasResults()) {
       this.selectFeed(this.newestResult());
