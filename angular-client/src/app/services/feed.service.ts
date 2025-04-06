@@ -13,8 +13,8 @@ import { Feed } from '../types/thingspeak/feed';
 })
 export class FeedService {
 
-  private channelId = "2544317"; //todo: move to config
-  private apiKey = "BTSBOV8OU07J60Q1";
+  private channelId = "2898553"; //todo: move to config
+  private apiKey = "AZU8M1FV47KYWRTF";
   private numberOfMinutes = 5;
   private feedUrlLastMinutes = `https://api.thingspeak.com/channels/${this.channelId}/feeds.json?api_key=${this.apiKey}&minutes=${this.numberOfMinutes}`;
   
